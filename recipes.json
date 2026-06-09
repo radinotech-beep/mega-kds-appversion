@@ -1,0 +1,2085 @@
+{
+  "schema": "mega-kds-recipes-v1",
+  "version": 1,
+  "updatedAt": "2026-06-08",
+  "recipes": [
+    {
+      "id": "MEGA-DRINK-001",
+      "no": "1",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "에스프레소",
+      "stdName": "에스프레소",
+      "price": "1,500원",
+      "cup": "",
+      "lines": [
+        "1샷 넣기"
+      ],
+      "keywords": "에스프레소 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-002",
+      "no": "2",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "에스프레소 도피오",
+      "stdName": "에스프레소 도피오",
+      "price": "2,000원",
+      "cup": "",
+      "lines": [
+        "2샷 넣기"
+      ],
+      "keywords": "에스프레소 도피오 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-003",
+      "no": "3",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "아메리카노",
+      "stdName": "아메리카노",
+      "price": "1,700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 온수 8부 (425ml)",
+        "2샷 넣기"
+      ],
+      "keywords": "아메리카노 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-004",
+      "no": "4",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "꿀아메리카노",
+      "stdName": "꿀아메리카노",
+      "price": "2,700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 온수 8부 (425ml)",
+        "꿀 2래들 (샷잔 1/4선) + 2샷 넣기"
+      ],
+      "keywords": "꿀아메리카노 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-005",
+      "no": "5",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "헛개리카노",
+      "stdName": "헛개리카노",
+      "price": "2,400원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 온수 8부 (400ml)",
+        "헛개베이스 3P + 2샷 넣기"
+      ],
+      "keywords": "헛개리카노 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-006",
+      "no": "6",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "헤이즐넛아메리카노",
+      "stdName": "헤이즐넛아메리카노",
+      "price": "2,700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 온수 8부 (400ml)",
+        "헤이즐넛시럽 3P + 2샷 넣기"
+      ],
+      "keywords": "헤이즐넛아메리카노 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-007",
+      "no": "7",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "바닐라아메리카노",
+      "stdName": "바닐라아메리카노",
+      "price": "2,700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 온수 8부 (400ml)",
+        "바닐라시럽 3P + 2샷 넣기"
+      ],
+      "keywords": "바닐라아메리카노 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-008",
+      "no": "8",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "카페라떼",
+      "stdName": "카페라떼",
+      "price": "2,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 스팀우유 275ml",
+        "2샷 넣기"
+      ],
+      "keywords": "카페라떼 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-009",
+      "no": "9",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "카푸치노",
+      "stdName": "카푸치노",
+      "price": "2,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 스팀우유 225ml x",
+        "2샷 넣기",
+        "토핑 : 시나몬파우더"
+      ],
+      "keywords": "카푸치노 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-010",
+      "no": "10",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "카라멜마끼아또",
+      "stdName": "카라멜마끼아또",
+      "price": "3,700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 스팀우유 250ml",
+        "카라멜시럽 3P + 2샷 넣기",
+        "토핑 : 카라멜드리즐"
+      ],
+      "keywords": "카라멜마끼아또 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-011",
+      "no": "11",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "헤이즐넛라떼",
+      "stdName": "헤이즐넛라떼",
+      "price": "3,400원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 스팀우유 250ml",
+        "헤이즐넛시럽 3P + 2샷 넣기"
+      ],
+      "keywords": "헤이즐넛라떼 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-012",
+      "no": "12",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "바닐라라떼",
+      "stdName": "바닐라라떼",
+      "price": "3,400원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 스팀우유 250ml",
+        "바닐라시럽 3P + 2샷 넣기"
+      ],
+      "keywords": "바닐라라떼 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-013",
+      "no": "13",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "연유라떼",
+      "stdName": "연유라떼",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 스팀우유 250ml",
+        "연유 2래들 (샷잔 1/4선) + 슈가시럽 1P + 2샷 넣기"
+      ],
+      "keywords": "연유라떼 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-014",
+      "no": "14",
+      "category": "커피",
+      "temp": "HOT",
+      "name": "카페모카",
+      "stdName": "카페모카",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 스팀우유 250ml",
+        "초코파우더 2래들 + 2샷 넣기",
+        "토핑 : 일반휘핑 (30g) + 초코드리즐"
+      ],
+      "keywords": "카페모카 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-015",
+      "no": "15",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "아메리카노",
+      "stdName": "아메리카노",
+      "price": "2,000원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 얼음 가득 + 정수 9부 (275ml)",
+        "2샷 넣기"
+      ],
+      "keywords": "아메리카노 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-016",
+      "no": "16",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "메가리카노",
+      "stdName": "메가리카노",
+      "price": "3,300원",
+      "cup": "32oz",
+      "lines": [
+        "32oz컵 얼음 가득 + 정수 9부 (400ml)",
+        "3샷 넣기"
+      ],
+      "keywords": "메가리카노 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-017",
+      "no": "17",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "헛개리카노",
+      "stdName": "헛개리카노",
+      "price": "2,400원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 얼음 가득 + 정수 9부 (250ml)",
+        "헛개베이스 3P + 2샷 넣기"
+      ],
+      "keywords": "헛개리카노 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-018",
+      "no": "18",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "왕메가헛개리카노",
+      "stdName": "왕메가헛개리카노",
+      "price": "3,400원",
+      "cup": "32oz",
+      "lines": [
+        "32oz컵 얼음 가득 + 정수 9부 (375ml)",
+        "헛개베이스 5P + 3샷 넣기"
+      ],
+      "keywords": "왕메가헛개리카노 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-019",
+      "no": "19",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "꿀아메리카노",
+      "stdName": "꿀아메리카노",
+      "price": "2,700원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 얼음 가득 + 정수 8.5부 (250ml)",
+        "꿀 2래들 (샷잔 1/4선) + 2샷 넣기"
+      ],
+      "keywords": "꿀아메리카노 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-020",
+      "no": "20",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "헤이즐넛아메리카노",
+      "stdName": "헤이즐넛아메리카노",
+      "price": "2,700원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 얼음 가득 + 정수 8.5부 (250ml)",
+        "헤이즐넛시럽 4P + 2샷 넣기"
+      ],
+      "keywords": "헤이즐넛아메리카노 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-021",
+      "no": "21",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "바닐라아메리카노",
+      "stdName": "바닐라아메리카노",
+      "price": "2,700원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 얼음 가득 + 정수 8.5부 (250ml)",
+        "바닐라시럽 4P + 2샷 넣기"
+      ],
+      "keywords": "바닐라아메리카노 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-022",
+      "no": "22",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "카페라떼",
+      "stdName": "카페라떼",
+      "price": "2,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 가득 + 우유 8부 (225ml)",
+        "2샷 넣기"
+      ],
+      "keywords": "카페라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-023",
+      "no": "23",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "왕메가카페라떼",
+      "stdName": "왕메가카페라떼",
+      "price": "4,400원",
+      "cup": "32oz",
+      "lines": [
+        "32oz컵 얼음 가득 + 우유 9부 (400ml)",
+        "3샷 넣기"
+      ],
+      "keywords": "왕메가카페라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-024",
+      "no": "24",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "헤이즐넛라떼",
+      "stdName": "헤이즐넛라떼",
+      "price": "3,400원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 가득 + 우유 A선 (200ml)",
+        "헤이즐넛시럽 4P + 2샷 넣기"
+      ],
+      "keywords": "헤이즐넛라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-025",
+      "no": "25",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "바닐라라떼",
+      "stdName": "바닐라라떼",
+      "price": "3,400원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 가득 + 우유 A선 (200ml)",
+        "바닐라시럽 4P + 2샷 넣기"
+      ],
+      "keywords": "바닐라라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-026",
+      "no": "26",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "라이트 바닐라 아몬드라떼",
+      "stdName": "라이트 바닐라 아몬드라떼",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 가득 + 아몬드밀크 A선 (200ml)",
+        "라이트바닐라시럽 4P + 2샷 넣기"
+      ],
+      "keywords": "라이트 바닐라 아몬드라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-027",
+      "no": "27",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "연유라떼",
+      "stdName": "연유라떼",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 가득 + 우유 A선 (200ml)",
+        "연유 2래들 (샷잔 1/4선) + 2샷 넣기"
+      ],
+      "keywords": "연유라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-028",
+      "no": "28",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "큐브라떼",
+      "stdName": "큐브라떼",
+      "price": "4,200원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 컵선 + 우유 A선 (200ml)",
+        "연유 2래들 (샷잔 1/4선) 에스프레소 큐브 2ea + 2샷 넣기"
+      ],
+      "keywords": "큐브라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-029",
+      "no": "29",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "카페모카",
+      "stdName": "카페모카",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 컵선 + 우유 A선 (125ml)",
+        "초코베이스 75ml (컵 밑선) + 2샷 넣기",
+        "토핑 : 일반휘핑 (30g) + 초코드리즐"
+      ],
+      "keywords": "카페모카 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-030",
+      "no": "30",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "초코젤라또 말차라떼",
+      "stdName": "초코젤라또 말차라떼",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 컵선 + 우유 8부 (150ml)",
+        "녹차베이스 75ml (컵 밑선) + 1샷 넣기",
+        "토핑 : 초코드리즐 + 초코젤라또"
+      ],
+      "keywords": "초코젤라또 말차라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-031",
+      "no": "31",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "카푸치노",
+      "stdName": "카푸치노",
+      "price": "2,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 컵선 + 우유 B선 (150ml) + 우유거품 (40g) x",
+        "2샷 넣기",
+        "토핑 : 시나몬파우더"
+      ],
+      "keywords": "카푸치노 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-032",
+      "no": "32",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "카라멜마끼아또",
+      "stdName": "카라멜마끼아또",
+      "price": "3,700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 컵선 + 우유 B선 (150ml) + 우유 거품 (40g)",
+        "카라멜시럽 4P + 2샷 넣기",
+        "토핑 : 카라멜드리즐"
+      ],
+      "keywords": "카라멜마끼아또 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-033",
+      "no": "33",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "할메가커피",
+      "stdName": "할메가커피",
+      "price": "2,100원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 얼음 가득",
+        "할메가커피베이스 가득 (약 300ml)"
+      ],
+      "keywords": "할메가커피 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-034",
+      "no": "34",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "왕할메가커피",
+      "stdName": "왕할메가커피",
+      "price": "3,200원",
+      "cup": "32oz",
+      "lines": [
+        "32oz컵 얼음 가득",
+        "할메가커피베이스 가득 (약 475ml)"
+      ],
+      "keywords": "왕할메가커피 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-035",
+      "no": "35",
+      "category": "커피",
+      "temp": "ICE",
+      "name": "할메가미숫커피",
+      "stdName": "할메가미숫커피",
+      "price": "2,900원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 할메가커피베이스 300ml + 곡물파우더 3래들 넣고 블렌딩(3번)",
+        "20oz컵 얼음 가득 + 블렌더 음료 붓기"
+      ],
+      "keywords": "할메가미숫커피 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-036",
+      "no": "36",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "얼그레이",
+      "stdName": "얼그레이",
+      "price": "2,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 티백 1ea",
+        "온수 9부 (475ml) 얼그레이"
+      ],
+      "keywords": "얼그레이 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-037",
+      "no": "37",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "녹차",
+      "stdName": "녹차",
+      "price": "2,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 티백 1ea",
+        "온수 9부 (475ml) 녹차"
+      ],
+      "keywords": "녹차 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-038",
+      "no": "38",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "캐모마일",
+      "stdName": "캐모마일",
+      "price": "2,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 티백 1ea",
+        "온수 9부 (475ml) 캐모마일"
+      ],
+      "keywords": "캐모마일 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-039",
+      "no": "39",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "페퍼민트",
+      "stdName": "페퍼민트",
+      "price": "2,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 티백 1ea",
+        "온수 9부 (475ml) 페퍼민트"
+      ],
+      "keywords": "페퍼민트 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-040",
+      "no": "40",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "유자차",
+      "stdName": "유자차",
+      "price": "3,300원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 유자청 5청래들",
+        "온수 9부 (375ml)"
+      ],
+      "keywords": "유자차 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-041",
+      "no": "41",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "레몬차",
+      "stdName": "레몬차",
+      "price": "3,300원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 레몬청 5청래들",
+        "온수 9부 (375ml)",
+        "토핑 : 레몬슬라이스"
+      ],
+      "keywords": "레몬차 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-042",
+      "no": "42",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "자몽차",
+      "stdName": "자몽차",
+      "price": "3,300원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 자몽청 4청래들 + 슈가시럽 2P   (4등분)",
+        "온수 9부 (375ml)",
+        "토핑 : 자몽슬라이스"
+      ],
+      "keywords": "자몽차 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-043",
+      "no": "43",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "유자생강차",
+      "stdName": "유자생강차",
+      "price": "3,300원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 유자청 4청래들 + 생강베이스 8P",
+        "온수 9부 (350ml)",
+        "토핑 : 레몬슬라이스"
+      ],
+      "keywords": "유자생강차 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-044",
+      "no": "44",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "상큼리치티",
+      "stdName": "상큼리치티",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 베이스 100ml + ② 냉동 레드 커런트 1래들",
+        "온수 9부 (400ml) ① 리치",
+        "토핑 : 로즈마리"
+      ],
+      "keywords": "상큼리치티 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-045",
+      "no": "45",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "허니자몽블랙티",
+      "stdName": "허니자몽블랙티",
+      "price": "3,700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 자몽청 3청래들 + 꿀 1래들 (약26.5g) + 얼그레이 티백 1ea   (4등분)",
+        "온수 9부 (375ml)",
+        "토핑 : 자몽슬라이스"
+      ],
+      "keywords": "허니자몽블랙티 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-046",
+      "no": "46",
+      "category": "차/티",
+      "temp": "HOT",
+      "name": "사과유자차",
+      "stdName": "사과유자차",
+      "price": "3,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 유자청 4청래들 + 애플 티백 1ea",
+        "온수 9부 (375ml)"
+      ],
+      "keywords": "사과유자차 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-047",
+      "no": "47",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "얼그레이",
+      "stdName": "얼그레이",
+      "price": "2,500원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 티백 2ea",
+        "얼음 가득 + 정수 가득 (100ml) 온수 (계량컵 150ml) + 얼그레이",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "얼그레이 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-048",
+      "no": "48",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "녹차",
+      "stdName": "녹차",
+      "price": "2,500원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 티백 2ea",
+        "얼음 가득 + 정수 가득 (100ml) 온수 (계량컵 150ml) + 녹차",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "녹차 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-049",
+      "no": "49",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "캐모마일",
+      "stdName": "캐모마일",
+      "price": "2,500원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 티백 2ea",
+        "얼음 가득 + 정수 가득 (100ml) 온수 (계량컵 150ml) + 캐모마일",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "캐모마일 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-050",
+      "no": "50",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "페퍼민트",
+      "stdName": "페퍼민트",
+      "price": "2,500원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 티백 2ea",
+        "얼음 가득 + 정수 가득 (100ml) 온수 (계량컵 150ml) + 페퍼민트",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "페퍼민트 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-051",
+      "no": "51",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "유자차",
+      "stdName": "유자차",
+      "price": "3,300원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 유자청 6청래들 + 온수 50ml",
+        "얼음 가득 + 정수 가득 (150ml)",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "유자차 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-052",
+      "no": "52",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "레몬차",
+      "stdName": "레몬차",
+      "price": "3,300원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 레몬청 6청래들 + 온수 50ml",
+        "얼음 가득 + 정수 가득 (150ml)",
+        "토핑 : 레몬슬라이스 + 애플민트"
+      ],
+      "keywords": "레몬차 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-053",
+      "no": "53",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "자몽차",
+      "stdName": "자몽차",
+      "price": "3,300원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 자몽청 4청래들 + 슈가시럽 1P + 온수 50ml",
+        "얼음 가득 + 정수 가득 (175ml)",
+        "토핑 : 자몽슬라이스 + 애플민트"
+      ],
+      "keywords": "자몽차 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-054",
+      "no": "54",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "상큼리치티",
+      "stdName": "상큼리치티",
+      "price": "3,900원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 베이스 100ml (컵 밑선) + ② 냉동 레드 커런트 1래들",
+        "얼음 가득 + 정수 가득 (250ml) ① 리치",
+        "토핑 : 로즈마리"
+      ],
+      "keywords": "상큼리치티 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-055",
+      "no": "55",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "허니자몽블랙티",
+      "stdName": "허니자몽블랙티",
+      "price": "3,700원",
+      "cup": "",
+      "lines": [
+        "계량컵에 온수 75ml + 얼그레이 티백 1ea 우려두기",
+        "24oz컵에 자몽청 3청래들 + 꿀 1래들 + 우린 티백 넣기",
+        "얼음 가득 + 정수 가득 (125ml)",
+        "토핑 : 자몽슬라이스 + 애플민트"
+      ],
+      "keywords": "허니자몽블랙티 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-056",
+      "no": "56",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "사과유자차",
+      "stdName": "사과유자차",
+      "price": "3,500원",
+      "cup": "",
+      "lines": [
+        "계량컵에 온수 75ml + 애플 티백 1ea 우려두기",
+        "24oz컵에 유자청 4청래들 + 우린 티백 넣기",
+        "얼음 가득 + 정수 가득 (125ml)",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "사과유자차 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-057",
+      "no": "57",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "왕메가사과유자차",
+      "stdName": "왕메가사과유자차",
+      "price": "4,400원",
+      "cup": "",
+      "lines": [
+        "계량컵에 온수 125ml + 애플 티백 2ea 넣고 3분 우리기",
+        "32oz컵에 유자청 6청래들 + 우린 물과 티백 넣고 섞기",
+        "얼음 가득 + 정수 9부 (175ml)",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "왕메가사과유자차 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-058",
+      "no": "58",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "복숭아아이스티",
+      "stdName": "복숭아아이스티",
+      "price": "3,000원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 아이스티 베이스 125ml (Z선)",
+        "얼음 가득 + 정수 가득 (175ml)",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "복숭아아이스티 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-059",
+      "no": "59",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "왕메가아이스티",
+      "stdName": "왕메가아이스티",
+      "price": "3,900원",
+      "cup": "32oz",
+      "lines": [
+        "32oz컵 + 아이스티 베이스 245g (I선)",
+        "얼음 가득 + 정수 가득 (275ml)",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "왕메가아이스티 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-060",
+      "no": "60",
+      "category": "차/티",
+      "temp": "ICE",
+      "name": "제로복숭아아이스티",
+      "stdName": "제로복숭아아이스티",
+      "price": "3,000원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 제로슈가 아이스티시럽 5P (약 48g)",
+        "얼음 가득 + 정수 가득 (275ml)",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "제로복숭아아이스티 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-061",
+      "no": "61",
+      "category": "논커피 라떼/초코",
+      "temp": "HOT",
+      "name": "녹차라떼",
+      "stdName": "녹차라떼",
+      "price": "3,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 2래들",
+        "스팀우유 250ml",
+        "토핑 : 녹차파우더"
+      ],
+      "keywords": "녹차라떼 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-062",
+      "no": "62",
+      "category": "논커피 라떼/초코",
+      "temp": "HOT",
+      "name": "로얄밀크티",
+      "stdName": "로얄밀크티",
+      "price": "3,700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 홍차파우더 2래들",
+        "스팀우유 250ml"
+      ],
+      "keywords": "로얄밀크티 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-063",
+      "no": "63",
+      "category": "논커피 라떼/초코",
+      "temp": "HOT",
+      "name": "핫초코",
+      "stdName": "핫초코",
+      "price": "3,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 초코파우더 4래들",
+        "스팀우유 250ml",
+        "토핑 : 코코아파우더"
+      ],
+      "keywords": "핫초코 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-064",
+      "no": "64",
+      "category": "논커피 라떼/초코",
+      "temp": "HOT",
+      "name": "토피넛라떼",
+      "stdName": "토피넛라떼",
+      "price": "3,800원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 토피넛파우더 4래들",
+        "스팀우유 250ml",
+        "토핑 : 카라멜드리즐"
+      ],
+      "keywords": "토피넛라떼 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-065",
+      "no": "65",
+      "category": "논커피 라떼/초코",
+      "temp": "HOT",
+      "name": "고구마라떼",
+      "stdName": "고구마라떼",
+      "price": "3,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 고구마페이스트 1스쿱 + 슈가시럽 1P",
+        "스팀우유 275ml(80℃)",
+        "토핑 : 아몬드슬라이스 (작은래들)"
+      ],
+      "keywords": "고구마라떼 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-066",
+      "no": "66",
+      "category": "논커피 라떼/초코",
+      "temp": "HOT",
+      "name": "곡물라떼",
+      "stdName": "곡물라떼",
+      "price": "3,300원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 곡물파우더 4래들 + 슈가시럽 1P",
+        "스팀우유 275ml",
+        "토핑 : 아몬드슬라이스 (작은래들)"
+      ],
+      "keywords": "곡물라떼 HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-067",
+      "no": "67",
+      "category": "논커피 라떼/초코",
+      "temp": "ICE",
+      "name": "녹차라떼",
+      "stdName": "녹차라떼",
+      "price": "3,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 녹차베이스 75ml (컵 밑선)",
+        "얼음 가득 + 우유 가득 (225ml)"
+      ],
+      "keywords": "녹차라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-068",
+      "no": "68",
+      "category": "논커피 라떼/초코",
+      "temp": "ICE",
+      "name": "아이스초코",
+      "stdName": "아이스초코",
+      "price": "3,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 초코베이스 130ml (D선)",
+        "얼음 가득 + 우유 가득 (150ml)"
+      ],
+      "keywords": "아이스초코 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-069",
+      "no": "69",
+      "category": "논커피 라떼/초코",
+      "temp": "ICE",
+      "name": "왕메가초코",
+      "stdName": "왕메가초코",
+      "price": "4,400원",
+      "cup": "32oz",
+      "lines": [
+        "32oz컵 + 초코베이스 240g (I선)",
+        "얼음 가득 + 우유 가득 (275ml)"
+      ],
+      "keywords": "왕메가초코 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-070",
+      "no": "70",
+      "category": "논커피 라떼/초코",
+      "temp": "ICE",
+      "name": "딸기라떼",
+      "stdName": "딸기라떼",
+      "price": "3,700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 가당딸기 200ml + 슈가시럽 3P [가위 컷팅]",
+        "얼음 가득 + 우유 가득 (125ml)"
+      ],
+      "keywords": "딸기라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-071",
+      "no": "71",
+      "category": "논커피 라떼/초코",
+      "temp": "ICE",
+      "name": "곡물라떼",
+      "stdName": "곡물라떼",
+      "price": "3,300원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 우유 250ml + 곡물파우더 4래들 + 슈가시럽 1P 넣고 블렌딩(3번)",
+        "20oz컵 얼음 가득 + 블렌더 음료 붓기"
+      ],
+      "keywords": "곡물라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-072",
+      "no": "72",
+      "category": "논커피 라떼/초코",
+      "temp": "ICE",
+      "name": "토피넛라떼",
+      "stdName": "토피넛라떼",
+      "price": "3,800원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 우유 250ml + 토피넛파우더 4래들 넣고 블렌딩(3번)",
+        "20oz컵 얼음 가득 + 블렌더 음료 붓기"
+      ],
+      "keywords": "토피넛라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-073",
+      "no": "73",
+      "category": "논커피 라떼/초코",
+      "temp": "ICE",
+      "name": "고구마라떼",
+      "stdName": "고구마라떼",
+      "price": "3,500원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 우유 200ml + 고구마페이스트 1스쿱 + 슈가시럽 1P 넣고 블렌딩(3번)",
+        "20oz컵 얼음 가득 + 블렌더 음료 붓기"
+      ],
+      "keywords": "고구마라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-074",
+      "no": "74",
+      "category": "논커피 라떼/초코",
+      "temp": "ICE",
+      "name": "로얄밀크티",
+      "stdName": "로얄밀크티",
+      "price": "3,700원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 우유 200ml + 홍차파우더 2래들 넣고 블렌딩(3번)",
+        "20oz컵 얼음 가득 + 블렌더 음료 붓기"
+      ],
+      "keywords": "로얄밀크티 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-075",
+      "no": "75",
+      "category": "논커피 라떼/초코",
+      "temp": "ICE",
+      "name": "오레오초코라떼",
+      "stdName": "오레오초코라떼",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 우유 200ml + 초코베이스 50ml + 오레오과자 3ea 넣고 블렌딩(3번/5초)",
+        "20oz컵 얼음 컵선 + 블렌더 음료 붓기",
+        "토핑 : 일반휘핑 (30g) + 오레오 1ea + 쿠키분태"
+      ],
+      "keywords": "오레오초코라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-076",
+      "no": "76",
+      "category": "에이드",
+      "temp": "ICE",
+      "name": "체리콜라",
+      "stdName": "체리콜라",
+      "price": "3,300원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 체리베이스 100ml (컵 밑선)",
+        "얼음 가득 + 콜라 가득 (250ml)",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "체리콜라 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-077",
+      "no": "77",
+      "category": "에이드",
+      "temp": "ICE",
+      "name": "레몬에이드",
+      "stdName": "레몬에이드",
+      "price": "3,500원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 레몬퓨레 1.5P + 슈가시럽 1P",
+        "얼음 가득 + 사이다 가득 (250ml)",
+        "토핑 : 레몬슬라이스 + 애플민트"
+      ],
+      "keywords": "레몬에이드 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-078",
+      "no": "78",
+      "category": "에이드",
+      "temp": "ICE",
+      "name": "블루레몬에이드",
+      "stdName": "블루레몬에이드",
+      "price": "3,500원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 레몬퓨레 1.5P + 블루큐라소시럽 2P",
+        "얼음 가득 + 사이다 가득 (250ml)",
+        "토핑 : 레몬슬라이스 + 애플민트"
+      ],
+      "keywords": "블루레몬에이드 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-079",
+      "no": "79",
+      "category": "에이드",
+      "temp": "ICE",
+      "name": "자몽에이드",
+      "stdName": "자몽에이드",
+      "price": "3,500원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 자몽퓨레 1P + 자몽시럽 1P + 슈가시럽 1P",
+        "얼음 가득 + 사이다 가득 (250ml)",
+        "토핑 : 자몽슬라이스 + 애플민트"
+      ],
+      "keywords": "자몽에이드 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-080",
+      "no": "80",
+      "category": "에이드",
+      "temp": "ICE",
+      "name": "청포도에이드",
+      "stdName": "청포도에이드",
+      "price": "3,500원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 청포도퓨레 2P + 라임시럽 1P",
+        "얼음 가득 + 사이다 가득 (250ml)",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "청포도에이드 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-081",
+      "no": "81",
+      "category": "에이드",
+      "temp": "ICE",
+      "name": "제로부스트에이드",
+      "stdName": "제로부스트에이드",
+      "price": "3,000원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 부스터베이스 1.5P",
+        "얼음 가득 + 제로사이다 가득 (250ml)",
+        "토핑 : 레몬슬라이스 1ea"
+      ],
+      "keywords": "제로부스트에이드 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-082",
+      "no": "82",
+      "category": "에이드",
+      "temp": "ICE",
+      "name": "메가에이드",
+      "stdName": "메가에이드",
+      "price": "3,900원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 메가에이드베이스 2P + 1ea (4등분) + 2ea + 라임슬라이스 2ea",
+        "얼음 가득 + 사이다 가득 (250ml)",
+        "토핑 : 레몬슬라이스 + 자몽슬라이스 + 애플민트"
+      ],
+      "keywords": "메가에이드 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-083",
+      "no": "83",
+      "category": "에이드",
+      "temp": "ICE",
+      "name": "라임모히또",
+      "stdName": "라임모히또",
+      "price": "3,800원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵 + 라임시럽 3P + 모히또시럽 4P + 라임슬라이스 4ea + 4ea(*4ea)",
+        "얼음 가득 + 사이다 가득 (250ml)",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "라임모히또 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-084",
+      "no": "84",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "플레인요거트스무디",
+      "stdName": "플레인요거트스무디",
+      "price": "3,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 우유 200ml + 요거트파우더 6래들 + 슈가시럽 1P + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵에 블렌더 음료 붓기"
+      ],
+      "keywords": "플레인요거트스무디 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-085",
+      "no": "85",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "망고요거트스무디",
+      "stdName": "망고요거트스무디",
+      "price": "3,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 우유 150ml + 요거트파우더 3래들 + 골드망고베이스 1P + 해동망고 10ea + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵에 블렌더 음료 붓기"
+      ],
+      "keywords": "망고요거트스무디 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-086",
+      "no": "86",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "딸기요거트스무디",
+      "stdName": "딸기요거트스무디",
+      "price": "3,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 우유 150ml + 요거트파우더 3래들 + 가당딸기 150ml + 슈가시럽 1P + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵에 블렌더 음료 붓기"
+      ],
+      "keywords": "딸기요거트스무디 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-087",
+      "no": "87",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "블루베리요거트스무디",
+      "stdName": "블루베리요거트스무디",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 우유 150ml + 요거트파우더 3래들 + 블루베리베이스 3래들 + 슈가시럽 1P + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵 바닥에 블루베리베이스 1래들 8부선 이하로 돌리고 + 블렌더 음료 붓기"
+      ],
+      "keywords": "블루베리요거트스무디 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-088",
+      "no": "88",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "골드망고스무디",
+      "stdName": "골드망고스무디",
+      "price": "3,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 물 150ml + 골드망고베이스 3.5P + 해동망고 5ea + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵에 블렌더 음료 붓기"
+      ],
+      "keywords": "골드망고스무디 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-089",
+      "no": "89",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "귤톡톡젤리스무디",
+      "stdName": "귤톡톡젤리스무디",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 물 150ml + 귤베이스 5래들 + 슈가시럽 1P + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵 바닥에 감귤워터젤리 약80g 깔고 + 블렌더 음료 붓기",
+        "토핑 : 애플민트"
+      ],
+      "keywords": "귤톡톡젤리스무디 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-090",
+      "no": "90",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "코코넛커피스무디",
+      "stdName": "코코넛커피스무디",
+      "price": "4,800원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 코코넛베이스 250ml + 코코넛칩 1래들 + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵 바닥에 식힌 샷 50ml 넣고 + 블렌더 음료 붓기",
+        "토핑 : 코코넛칩 1래들 (약 5g)"
+      ],
+      "keywords": "코코넛커피스무디 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-091",
+      "no": "91",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "밀크쉐이크",
+      "stdName": "밀크쉐이크",
+      "price": "2,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 우유 200ml + 밀크쉐이크파우더 5래들 + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵에 블렌더 음료 붓기"
+      ],
+      "keywords": "밀크쉐이크 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-092",
+      "no": "92",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "쿠키프라페",
+      "stdName": "쿠키프라페",
+      "price": "3,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 쿠키베이스 250ml + 3래들 + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵바닥에 쿠키베이스 1래들 깔고 + 블렌더 음료 붓기",
+        "토핑 : 휘핑 (30g) + 오레오 2ea (컷팅) + 쿠키분태"
+      ],
+      "keywords": "쿠키프라페 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-093",
+      "no": "93",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "리얼초코프라페",
+      "stdName": "리얼초코프라페",
+      "price": "3,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 쿠키베이스 100ml + 초코베이스 150ml + 초콜릿칩 1래들 + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵에 블렌더 음료 붓기",
+        "토핑 : 일반휘핑 (30g) + 초코드리즐 + 카라멜드리즐 + 딸기분태"
+      ],
+      "keywords": "리얼초코프라페 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-094",
+      "no": "94",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "녹차프라페",
+      "stdName": "녹차프라페",
+      "price": "3,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 쿠키베이스 125ml + 녹차베이스 125ml + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵에 블렌더 음료 붓기",
+        "토핑 : 일반휘핑 (30g) + 녹차파우더"
+      ],
+      "keywords": "녹차프라페 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-095",
+      "no": "95",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "커피프라페",
+      "stdName": "커피프라페",
+      "price": "3,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 쿠키베이스 200ml + 식힌 샷 50ml + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵에 블렌더 음료 붓기",
+        "토핑 : 일반휘핑 (30g) + 식힌 샷 + 카라멜드리즐"
+      ],
+      "keywords": "커피프라페 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-096",
+      "no": "96",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "민트프라페",
+      "stdName": "민트프라페",
+      "price": "3,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 우유 150ml + 민트베이스파우더 5래들 + 민트시럽 3P + 초콜릿칩 1래들 + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵에 블렌더 음료 붓기",
+        "토핑 : 일반휘핑 (30g) + 딸기분태"
+      ],
+      "keywords": "민트프라페 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-097",
+      "no": "97",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "딸기쿠키프라페",
+      "stdName": "딸기쿠키프라페",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 우유 100ml + 쿠키베이스 100ml + 얼음 컵선 넣고 블렌딩(3번)",
+        "20oz컵 바닥에 쿠키분태 2래들 깔고 + 블렌더에 딸기소스 2P 넣어 마블링 후 붓기",
+        "토핑 : 일반휘핑 (30g) + 쿠키분태"
+      ],
+      "keywords": "딸기쿠키프라페 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-098",
+      "no": "98",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "플레인퐁크러쉬",
+      "stdName": "플레인퐁크러쉬",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 우유 100ml + 쿠키베이스 150ml + 죠리퐁 1컵 + 슈가시럽 2P + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵 바닥에 죠리퐁(7g) 깔고 + 블렌더 음료 붓기",
+        "토핑 : 죠리퐁 가득 (약20g)"
+      ],
+      "keywords": "플레인퐁크러쉬 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-099",
+      "no": "99",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "바나나퐁크러쉬",
+      "stdName": "바나나퐁크러쉬",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 우유 100ml + 쿠키베이스 150ml + 죠리퐁 1컵 + 슈가시럽 2P + 바나나파우더 2래들 + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵 바닥에 죠리퐁(7g) 깔고 + 블렌더 음료 붓기",
+        "토핑 : 죠리퐁 가득 (약20g)"
+      ],
+      "keywords": "바나나퐁크러쉬 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-100",
+      "no": "100",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "딸기퐁크러쉬",
+      "stdName": "딸기퐁크러쉬",
+      "price": "3,900원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 우유 100ml + 쿠키베이스 150ml + 죠리퐁 1컵 + 딸기소스 1P + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵 바닥에 죠리퐁(7g) 깔고 + 블렌더 음료 붓기",
+        "토핑 : 죠리퐁 가득 (약20g)"
+      ],
+      "keywords": "딸기퐁크러쉬 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-101",
+      "no": "101",
+      "category": "스무디/프라페",
+      "temp": "ICE",
+      "name": "초코허니퐁크러쉬",
+      "stdName": "초코허니퐁크러쉬",
+      "price": "3,900원",
+      "cup": "",
+      "lines": [
+        "블렌더에 우유 100ml + 쿠키베이스 150ml + 죠리퐁 1컵 + 초코파우더 2래들 + 얼음가득 넣고 블렌딩(3번)",
+        "20oz컵에 블렌더 음료 붓기",
+        "토핑 : 허니퍼프시리얼 가득 (약20g)"
+      ],
+      "keywords": "초코허니퐁크러쉬 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-102",
+      "no": "102",
+      "category": "흑당",
+      "temp": "ICE",
+      "name": "흑당라떼",
+      "stdName": "흑당라떼",
+      "price": "3,300원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 흑당베이스 3P",
+        "얼음 가득 + 우유 가득 (250ml)"
+      ],
+      "keywords": "흑당라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-103",
+      "no": "103",
+      "category": "흑당",
+      "temp": "ICE",
+      "name": "흑당밀크티라떼",
+      "stdName": "흑당밀크티라떼",
+      "price": "3,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 흑당베이스 2P + 밀크티시럽 2P",
+        "얼음 가득 + 우유 가득 (250ml)"
+      ],
+      "keywords": "흑당밀크티라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-104",
+      "no": "104",
+      "category": "흑당",
+      "temp": "ICE",
+      "name": "흑당버블라떼",
+      "stdName": "흑당버블라떼",
+      "price": "3,700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 흑당베이스 2P + 물기 제거한 펄",
+        "얼음 가득 + 우유 가득 (250ml)"
+      ],
+      "keywords": "흑당버블라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-105",
+      "no": "105",
+      "category": "흑당",
+      "temp": "ICE",
+      "name": "흑당버블밀크티라떼",
+      "stdName": "흑당버블밀크티라떼",
+      "price": "3,800원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 흑당베이스 2P + 물기 제거한 펄 + 밀크티시럽 1P",
+        "얼음 가득 + 우유 가득 (250ml)"
+      ],
+      "keywords": "흑당버블밀크티라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-106",
+      "no": "106",
+      "category": "주스",
+      "temp": "ICE",
+      "name": "골드키위주스",
+      "stdName": "골드키위주스",
+      "price": "4,000원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 정수 200ml + 원팩 (골드키위) 1팩 넣고 블렌딩(1번)",
+        "20oz컵 얼음 8부 + 블렌더 음료 붓기"
+      ],
+      "keywords": "골드키위주스 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-107",
+      "no": "107",
+      "category": "주스",
+      "temp": "ICE",
+      "name": "블루베리플럼주스",
+      "stdName": "블루베리플럼주스",
+      "price": "4,000원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 정수 200ml + 원팩 (피치푸룬) 1팩 넣고 블렌딩(1번)",
+        "20oz컵 얼음 8부 + 블렌더 음료 붓기"
+      ],
+      "keywords": "블루베리플럼주스 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-108",
+      "no": "108",
+      "category": "주스",
+      "temp": "ICE",
+      "name": "딸기주스",
+      "stdName": "딸기주스",
+      "price": "4,000원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 정수 200ml + 원팩 (딸기) 1팩 넣고 블렌딩(1번)",
+        "20oz컵 얼음 8부 + 블렌더 음료 붓기"
+      ],
+      "keywords": "딸기주스 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-109",
+      "no": "109",
+      "category": "주스",
+      "temp": "ICE",
+      "name": "딸기바나나주스",
+      "stdName": "딸기바나나주스",
+      "price": "4,000원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 정수100ml + 우유100ml + 원팩 (딸기바나나) 1팩 넣고 블렌딩(1번)",
+        "20oz컵 얼음 8부 + 블렌더 음료 붓기"
+      ],
+      "keywords": "딸기바나나주스 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-110",
+      "no": "110",
+      "category": "콜드브루",
+      "temp": "HOT",
+      "name": "콜드브루오리지널(HOT)",
+      "stdName": "콜드브루오리지널",
+      "price": "3,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 콜드브루원액 100ml",
+        "온수 9부 (400ml)"
+      ],
+      "keywords": "콜드브루오리지널 콜드브루오리지널(HOT) HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-111",
+      "no": "111",
+      "category": "콜드브루",
+      "temp": "HOT",
+      "name": "콜드브루라떼(HOT)",
+      "stdName": "콜드브루라떼",
+      "price": "4,000원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 콜드브루원액 100ml",
+        "스팀우유 250ml(80℃)"
+      ],
+      "keywords": "콜드브루라떼 콜드브루라떼(HOT) HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-112",
+      "no": "112",
+      "category": "콜드브루",
+      "temp": "ICE",
+      "name": "콜드브루오리지널(ICE)",
+      "stdName": "콜드브루오리지널",
+      "price": "3,500원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 콜드브루 원액 75ml (컵 밑선)",
+        "얼음 가득 + 정수 가득 (225ml)"
+      ],
+      "keywords": "콜드브루오리지널 콜드브루오리지널(ICE) ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-113",
+      "no": "113",
+      "category": "콜드브루",
+      "temp": "ICE",
+      "name": "콜드브루라떼(ICE)",
+      "stdName": "콜드브루라떼",
+      "price": "4,000원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 콜드브루 원액 75ml (컵 밑선)",
+        "얼음 가득 + 우유 가득 (225ml)"
+      ],
+      "keywords": "콜드브루라떼 콜드브루라떼(ICE) ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-114",
+      "no": "114",
+      "category": "꿀팁옵션",
+      "temp": "HOT",
+      "name": "녹차라떼(HOT)",
+      "stdName": "녹차라떼",
+      "price": "800원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 2래들 + 바닐라시럽 1P",
+        "아몬드밀크 250ml",
+        "토핑 : 녹차파우더"
+      ],
+      "keywords": "녹차라떼 녹차라떼(HOT) HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-115",
+      "no": "115",
+      "category": "꿀팁옵션",
+      "temp": "HOT",
+      "name": "곡물라떼(HOT)",
+      "stdName": "곡물라떼",
+      "price": "1,000원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 곡물파우더 4래들 + 꿀 1래들 (약 26.5g [저울계량 권장])",
+        "오트밀크 275ml",
+        "토핑 : 아몬드슬라이스 (작은래들)"
+      ],
+      "keywords": "곡물라떼 곡물라떼(HOT) HOT",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-116",
+      "no": "116",
+      "category": "꿀팁옵션",
+      "temp": "ICE",
+      "name": "아메리카노(ICE)",
+      "stdName": "아메리카노",
+      "price": "700원",
+      "cup": "24oz",
+      "lines": [
+        "24oz컵",
+        "얼음 가득 + 사이다 9부 (275ml)"
+      ],
+      "keywords": "아메리카노 아메리카노(ICE) ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-117",
+      "no": "117",
+      "category": "꿀팁옵션",
+      "temp": "ICE",
+      "name": "녹차라떼(ICE)",
+      "stdName": "녹차라떼",
+      "price": "800원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 녹차베이스 75ml (컵 밑선) + 바닐라시럽 1P",
+        "얼음 가득 + 아몬드밀크 가득 (225ml)"
+      ],
+      "keywords": "녹차라떼 녹차라떼(ICE) ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-118",
+      "no": "118",
+      "category": "꿀팁옵션",
+      "temp": "ICE",
+      "name": "딸기라떼",
+      "stdName": "딸기라떼",
+      "price": "700원",
+      "cup": "20oz",
+      "lines": [
+        "20oz컵 + 가당딸기 200ml + 연유 50g (저울계량) [가위컷팅]",
+        "얼음 가득 + 우유 가득 (125ml)"
+      ],
+      "keywords": "딸기라떼 ICE",
+      "status": "초안",
+      "note": ""
+    },
+    {
+      "id": "MEGA-DRINK-119",
+      "no": "119",
+      "category": "꿀팁옵션",
+      "temp": "ICE",
+      "name": "곡물라떼(ICE)",
+      "stdName": "곡물라떼",
+      "price": "1,000원",
+      "cup": "20oz",
+      "lines": [
+        "블렌더에 오트밀크 250ml + 곡물파우더 4래들 + 꿀 1래들 (약 26.5g [저울계량 권장]) 넣고 블렌딩(3번)",
+        "20oz컵 얼음 가득 + 블렌더 음료 붓기"
+      ],
+      "keywords": "곡물라떼 곡물라떼(ICE) ICE",
+      "status": "초안",
+      "note": ""
+    }
+  ]
+}

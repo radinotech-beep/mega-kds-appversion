@@ -1,0 +1,1466 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F5C800">
+<title>MEGA MGC COFFEE · KDS</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans KR',sans-serif;background:#FFFBE6;color:#2C2C2A;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+
+/* 탑바 */
+.topbar{background:#F5C800;padding:0 14px;height:46px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #E0B800;flex-shrink:0;}
+.top-logo{font-size:14px;font-weight:500;color:#111;}
+.top-right{display:flex;gap:10px;align-items:center;}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#3B6D11;}
+.sync-dot.err{background:#E24B4A;}
+.top-time{font-size:13px;color:#555;font-weight:500;}
+.top-count{background:#111;color:#F5C800;font-size:12px;font-weight:500;padding:3px 12px;border-radius:20px;}
+.page-btn{width:26px;height:26px;border:1px solid #111;border-radius:50%;background:#fff;color:#111;font-size:16px;font-weight:900;line-height:1;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;}
+.page-btn:disabled{opacity:.35;cursor:default;}
+.page-indicator{background:#FFF9D6;color:#111;border:1px solid #111;font-size:12px;font-weight:800;padding:3px 10px;border-radius:20px;}
+
+/* 설정 패널 */
+.settings-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:9999;}
+.settings-overlay.show{display:flex;}
+.settings-box{background:#fff;border-radius:14px;padding:24px;width:min(400px,90vw);display:flex;flex-direction:column;gap:12px;}
+.settings-box h2{font-size:16px;font-weight:900;}
+.settings-box label{font-size:13px;color:#555;margin-bottom:2px;display:block;}
+.settings-box input{width:100%;padding:8px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;}
+.settings-box input:focus{outline:none;border-color:#F5C800;}
+.settings-save{width:100%;padding:10px;background:#F5C800;border:none;border-radius:8px;font-size:14px;font-weight:900;cursor:pointer;font-family:inherit;margin-top:4px;}
+.settings-save:active{background:#E0B800;}
+
+/* 주문 그리드 */
+.order-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr;gap:10px;padding:12px;overflow:hidden;align-content:stretch;touch-action:pan-y;user-select:none;}
+.order-grid.grid-8{grid-template-rows:repeat(2,minmax(0,1fr));gap:8px;padding:10px;}
+.order-grid.slide-next .order-card{animation:slideInNext .22s ease-out both;}
+.order-grid.slide-prev .order-card{animation:slideInPrev .22s ease-out both;}
+@keyframes slideInNext{from{opacity:.35;transform:translateX(42px);}to{opacity:1;transform:translateX(0);}}
+@keyframes slideInPrev{from{opacity:.35;transform:translateX(-42px);}to{opacity:1;transform:translateX(0);}}
+
+/* 주문 카드 */
+.order-card{background:#fff;border:2px solid #E8D84A;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 4px rgba(0,0,0,0.06);min-height:0;}
+.order-card.urgent{border-color:#E24B4A;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(226,75,74,0.3);}50%{box-shadow:0 0 0 6px rgba(226,75,74,0);}}
+.order-card.done{opacity:0.82;border-color:#ddd;}
+
+/* 카드 헤더 */
+.card-head{background:#FFF9D6;padding:5px 8px;border-bottom:1.5px solid #E8D84A;display:grid;grid-template-columns:56px 1fr 56px;align-items:center;gap:8px;height:46px;min-height:46px;flex-shrink:0;}
+.card-head.urgent{background:#FCEBEB;border-bottom-color:#E24B4A;}
+.card-head.done{background:#f5f5f5;border-bottom-color:#ddd;}
+.head-left{display:contents;}
+.order-top-row{display:contents;}
+.tap-label{grid-column:1;justify-self:start;display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:24px;border-radius:5px;background:#111;color:#F5C800;font-size:12px;font-weight:900;}
+.order-no{grid-column:2;justify-self:center;font-size:31px;line-height:1;color:#111;font-weight:900;white-space:nowrap;letter-spacing:0;text-align:center;cursor:pointer;padding:4px 10px;border-radius:8px;}
+.order-no.called{background:#3B6D11;color:#fff;}
+.order-no.delivery{color:#111;}
+.order-no.delivery.called{color:#fff;}
+.order-time-inline{font-size:12px;color:#888;font-weight:600;white-space:nowrap;}
+.head-right{display:none;}
+.urgent-badge{font-size:10px;background:#E8A800;color:#fff;padding:3px 8px;border-radius:4px;font-weight:700;}
+.delivery-badge{display:none;}
+
+/* 포장/먹고가기 띠 */
+.type-bar{width:100%;height:34px;padding:0 9px;font-size:20px;font-weight:900;letter-spacing:0;text-align:center;display:grid;grid-template-columns:56px 1fr 56px;align-items:center;position:relative;flex-shrink:0;cursor:pointer;}
+.type-bar:active,.order-no:active{filter:brightness(.92);}
+.type-bar::after{content:attr(data-time);position:absolute;right:9px;top:50%;transform:translateY(-50%);font-size:12px;color:rgba(255,255,255,.9);font-weight:900;}
+.type-bar::before{content:"완료";grid-column:1;justify-self:start;display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:23px;border-radius:5px;background:rgba(0,0,0,.28);color:#fff;font-size:12px;font-weight:900;}
+.type-label{grid-column:2;justify-self:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+.type-bar.take{background:#1060C0;color:#fff;}
+.type-bar.eat{background:#C03010;color:#fff;}
+.type-bar.delivery{background:#B51652;color:#fff;}
+.type-bar.app{background:#148A4F;color:#fff;}
+.type-bar.pickup{background:#7C3AED;color:#fff;}
+
+/* 카드 바디 */
+.card-body{padding:8px 10px;flex:1;overflow:auto;min-height:0;}
+.menu-item{padding:5px 0;border-bottom:1px solid #FFF0CC;cursor:pointer;border-radius:4px;transition:background 0.15s;}
+.menu-item:last-child{border-bottom:none;}
+.menu-item.made{background:#F0F0F0;opacity:0.55;}
+.menu-item.made .menu-name{color:#aaa;}
+.menu-item.made .menu-qty{color:#aaa;}
+.menu-item.made .opt-text{color:#ccc;}
+.menu-row{display:flex;justify-content:space-between;align-items:center;}
+.menu-name{font-size:15px;font-weight:700;color:#2C2C2A;flex:1;}
+.menu-name.temp-ice{color:#1060C0;font-weight:900;}
+.menu-name.temp-hot{color:#C03010;font-weight:900;}
+.menu-name.mega-ricano{color:#B87900;font-weight:900;}
+.menu-name.matcha-parfait{color:#166534;font-weight:900;}
+.menu-qty{font-size:13px;font-weight:500;color:#111;margin-left:6px;white-space:nowrap;}
+.opt-list{margin-top:3px;display:flex;flex-direction:column;gap:2px;}
+.opt-row{display:flex;align-items:flex-start;gap:3px;}
+.opt-arrow{color:#111;font-size:11px;margin-top:1px;flex-shrink:0;}
+.opt-text{font-size:13px;color:#111;line-height:1.4;}
+.opt-text.tumbler{display:inline-flex;align-items:center;background:#E6F1FB;color:#075985;border:1px solid #6BA7E8;border-radius:999px;padding:1px 7px;font-weight:900;}
+.delivery-note{margin:8px 10px 0;padding:7px 9px;border:1px solid #F2B8CC;background:#FFF4F8;color:#8A1746;border-radius:7px;font-size:12px;line-height:1.35;font-weight:700;}
+.delivery-note-label{display:inline-block;margin-right:5px;color:#B51652;font-weight:900;}
+
+/* 카드 푸터 */
+.card-foot{display:none;}
+.foot-actions{display:flex;gap:7px;}
+.done-btn{flex:1;padding:8px;background:#F5C800;color:#111;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+.done-btn:active{background:#E0B800;}
+.call-btn{width:78px;padding:8px;background:#111;color:#F5C800;border:none;border-radius:6px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit;}
+.call-btn.called{background:#3B6D11;color:#fff;}
+.call-btn:active{opacity:.85;}
+.elapsed{font-size:10px;color:#888;text-align:center;margin-bottom:4px;}
+.elapsed.warn{color:#B85C00;font-weight:500;}
+.view-mode-btn{background:#fff;color:#111;border:1px solid #111;border-radius:10px;font-size:11px;font-weight:900;padding:4px 9px;cursor:pointer;font-family:inherit;}
+
+/* 완료 카드 */
+.done-card{background:#f5f5f5;border:1.5px solid #ddd;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:4px;opacity:0.7;}
+.done-no{font-size:11px;color:#999;}
+.done-dept{font-size:14px;font-weight:800;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.done-time{font-size:11px;color:#aaa;}
+.done-label{font-size:10px;background:#eaf4df;color:#2f6d13;border-radius:999px;padding:2px 7px;font-weight:800;width:fit-content;}
+
+/* 빈 화면 */
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#B8860B;gap:10px;grid-column:1/-1;}
+.empty-icon{font-size:48px;}
+.empty-text{font-size:14px;color:#888;}
+
+/* 하단 바 */
+.bottombar{background:#F5C800;padding:7px 14px;border-top:1px solid #E0B800;display:flex;gap:20px;align-items:center;flex-shrink:0;}
+.stat{display:flex;align-items:center;gap:6px;}
+.stat-label{font-size:11px;color:#555;}
+.stat-val{font-size:13px;font-weight:500;color:#111;}
+.stat-val.red{color:#A32D2D;}
+.stat-val.green{color:#3B6D11;}
+.show-done-btn{margin-left:auto;font-size:11px;padding:4px 10px;background:none;border:1px solid #111;border-radius:10px;cursor:pointer;color:#111;font-family:inherit;}
+.settings-btn{font-size:11px;padding:4px 10px;background:none;border:1px solid #111;border-radius:10px;cursor:pointer;color:#111;font-family:inherit;}
+.undo-btn{font-size:11px;padding:4px 10px;background:#111;border:1px solid #111;border-radius:10px;cursor:pointer;color:#F5C800;font-family:inherit;font-weight:800;}
+.undo-btn:disabled{opacity:.35;cursor:default;}
+.diagnostics-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:9998;}
+.diagnostics-overlay.show{display:flex;}
+.diagnostics-box{width:min(900px,92vw);max-height:82vh;background:#fff;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;}
+.diagnostics-head{background:#F5C800;color:#111;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:900;}
+.diagnostics-close{border:1px solid #111;background:#fff;border-radius:8px;padding:5px 10px;font-family:inherit;font-weight:900;cursor:pointer;}
+.diagnostics-body{padding:14px;overflow:auto;font-size:12px;line-height:1.45;white-space:pre-wrap;font-family:Consolas,'Malgun Gothic',monospace;}
+.recipe-overlay{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;z-index:9997;}
+.recipe-overlay.show{display:flex;}
+.recipe-box{width:min(760px,94vw);max-height:86vh;background:#fff;border-radius:8px;display:flex;flex-direction:column;overflow:hidden;border:2px solid #111;}
+.recipe-head{background:#009100;color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.recipe-title{font-size:20px;font-weight:900;line-height:1.25;text-align:center;flex:1;}
+.recipe-close{border:1px solid #F5C800;background:#F5C800;color:#111;border-radius:8px;padding:5px 10px;font-family:inherit;font-weight:900;cursor:pointer;}
+.recipe-body{padding:0;overflow:auto;color:#111;background:#fff;}
+.recipe-meta{display:grid;grid-template-columns:140px 92px 1fr;border-bottom:1px solid #111;background:#E7F4F7;}
+.recipe-meta-cell{padding:8px 10px;border-right:1px solid #111;font-size:13px;font-weight:900;text-align:center;}
+.recipe-meta-cell:last-child{border-right:none;}
+.recipe-card{display:grid;grid-template-columns:140px 92px 1fr;min-height:104px;border-bottom:1px solid #111;}
+.recipe-card:last-child{border-bottom:none;}
+.recipe-name-cell{display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column;padding:12px 8px;border-right:1px solid #111;background:#FFF4C2;font-size:17px;font-weight:900;line-height:1.22;word-break:keep-all;overflow-wrap:anywhere;}
+.recipe-name-cell .recipe-temp{display:block;margin-top:7px;color:#0647FF;font-size:15px;}
+.recipe-size-cell{display:flex;align-items:center;justify-content:center;padding:10px;border-right:1px solid #111;color:#0647FF;font-size:15px;font-weight:900;}
+.recipe-main-cell{padding:14px 16px;font-size:16px;line-height:1.55;font-weight:900;}
+.recipe-line{margin:0 0 7px;}
+.recipe-line:last-child{margin-bottom:0;}
+.recipe-line-num{font-weight:900;margin-right:4px;}
+.recipe-note{margin-top:6px;font-size:14px;line-height:1.45;color:#111;}
+.recipe-actions{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;}
+.recipe-action{border:1px solid #111;background:#F5C800;color:#111;border-radius:7px;padding:5px 9px;font-size:12px;font-family:inherit;font-weight:900;cursor:pointer;}
+.recipe-action.secondary{background:#fff;}
+.recipe-edit-form{padding:14px;border-top:1px solid #111;background:#FFFBE8;}
+.recipe-form-row{margin-bottom:9px;}
+.recipe-form-row label{display:block;font-size:12px;font-weight:900;margin-bottom:4px;color:#444;}
+.recipe-form-row input,.recipe-form-row textarea{width:100%;box-sizing:border-box;border:1px solid #111;border-radius:7px;padding:9px;font-family:inherit;font-size:14px;font-weight:800;background:#fff;}
+.recipe-form-row textarea{min-height:130px;line-height:1.45;resize:vertical;}
+.recipe-form-grid{display:grid;grid-template-columns:1fr 96px 96px;gap:8px;}
+.recipe-color-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 8px;}
+.recipe-color-btn{border:1px solid #111;background:#fff;border-radius:7px;padding:5px 8px;font-family:inherit;font-size:12px;font-weight:900;cursor:pointer;}
+.recipe-color-btn.red{color:#F00000;}
+.recipe-color-btn.blue{color:#0647FF;}
+.recipe-color-btn.green{color:#128600;}
+.recipe-color-btn.orange{color:#FF5A00;}
+.recipe-color-help{font-size:11px;color:#555;font-weight:800;margin-bottom:6px;}
+.recipe-em-red{color:#F00000;}
+.recipe-em-blue{color:#0647FF;}
+.recipe-em-green{color:#128600;}
+.recipe-em-orange{color:#FF5A00;}
+.recipe-option-box{border-bottom:1px solid #111;padding:8px 12px;background:#FAFAFA;font-size:13px;font-weight:800;white-space:pre-wrap;}
+.recipe-text{font-size:15px;line-height:1.45;white-space:pre-wrap;font-weight:700;}
+.recipe-empty{color:#A33;font-weight:900;}
+.menu-qty.recipe-open{border:1px solid #111;border-radius:7px;padding:1px 6px;background:#fff;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<!-- 설정 패널 -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettings(event)">
+  <div class="settings-box">
+    <h2>⚙️ KDS 설정</h2>
+    <div>
+      <label>POS IP 주소</label>
+      <input type="text" id="setPosIp" placeholder="매장 POS IP 입력">
+    </div>
+    <div>
+      <label>포트 번호</label>
+      <input type="text" id="setPosPort" placeholder="매장 포트 입력">
+    </div>
+    <div>
+      <label>인증 토큰 (Bearer 뒤 값)</label>
+      <input type="text" id="setToken" placeholder="매장 토큰 입력">
+    </div>
+    <div>
+      <label>DID storeCode</label>
+      <input type="text" id="setDidStoreCode" placeholder="매장 DID storeCode 입력">
+    </div>
+    <div>
+      <label>업데이트 주소(version.json)</label>
+      <input type="text" id="setUpdateManifestUrl" placeholder="https://.../version.json">
+    </div>
+    <div>
+      <label>레시피 주소(recipes.json)</label>
+      <input type="text" id="setRecipeDataUrl" placeholder="비우면 version.json과 같은 폴더의 recipes.json 사용">
+    </div>
+    <div>
+      <label>폴링 주기 (초)</label>
+      <input type="number" id="setInterval" placeholder="1" min="1" max="10">
+    </div>
+    <button class="settings-save" onclick="saveSettings()">저장 후 적용</button>
+  </div>
+</div>
+
+<div class="diagnostics-overlay" id="diagnosticsOverlay" onclick="closeDiagnostics(event)">
+  <div class="diagnostics-box">
+    <div class="diagnostics-head">
+      <span>주문형태 진단</span>
+      <button class="diagnostics-close" onclick="hideDiagnostics()">닫기</button>
+    </div>
+    <pre class="diagnostics-body" id="diagnosticsBody">주문을 불러오는 중...</pre>
+  </div>
+</div>
+
+<div class="recipe-overlay" id="recipeOverlay" onclick="closeRecipe(event)">
+  <div class="recipe-box">
+    <div class="recipe-head">
+      <div class="recipe-title" id="recipeTitle">레시피</div>
+      <button class="recipe-close" onclick="hideRecipe()">닫기</button>
+    </div>
+    <div class="recipe-body" id="recipeBody"></div>
+  </div>
+</div>
+
+<div class="topbar">
+  <span class="top-logo">MEGA MGC COFFEE · KDS</span>
+  <div class="top-right">
+    <span class="sync-dot" id="syncDot"></span>
+    <span class="top-time" id="topTime"></span>
+    <button class="page-btn" id="pagePrevBtn" onclick="movePage(-1)">‹</button>
+    <span class="page-indicator" id="pageIndicator">1/1</span>
+    <button class="page-btn" id="pageNextBtn" onclick="movePage(1)">›</button>
+    <button onclick="playAlert()" style="background:none;border:1px solid #111;border-radius:10px;font-size:11px;padding:3px 8px;cursor:pointer;color:#111;">🔔</button>
+    <span class="top-count" id="topCount">대기 0건</span>
+  </div>
+</div>
+
+<div class="order-grid" id="orderGrid">
+  <div class="empty-state">
+    <div class="empty-icon">☕</div>
+    <div class="empty-text">주문을 기다리는 중...</div>
+  </div>
+</div>
+
+<div class="bottombar">
+  <div class="stat"><span class="stat-label">대기</span><span class="stat-val" id="statPending">0건</span></div>
+  <div class="stat"><span class="stat-label">완료</span><span class="stat-val green" id="statDone">0건</span></div>
+  <div class="stat"><span class="stat-label">5분초과</span><span class="stat-val red" id="statUrgent">0건</span></div>
+  <button class="undo-btn" onclick="undoLastComplete()" id="undoBtn" disabled>직전 취소</button>
+  <button class="settings-btn" onclick="openDiagnostics()">진단</button>
+  <button class="settings-btn" onclick="openSettings()">⚙️ 설정</button>
+  <button class="show-done-btn" onclick="toggleDone()" id="showDoneBtn">완료 내역 보기</button>
+</div>
+
+<script>
+// ── 설정 ──
+const DEFAULT = {
+  posIp: '',
+  posPort: '',
+  token: '',
+  didStoreCode: '',
+  updateManifestUrl: '',
+  recipeDataUrl: '',
+  pollInterval: 1
+};
+
+function loadConfig() {
+  try {
+    const s = localStorage.getItem('kds_config');
+    return s ? {...DEFAULT, ...JSON.parse(s)} : {...DEFAULT};
+  } catch(e) { return {...DEFAULT}; }
+}
+function saveConfig(cfg) {
+  localStorage.setItem('kds_config', JSON.stringify(cfg));
+}
+
+let config = loadConfig();
+
+try {
+  if(window.AndroidKds && AndroidKds.getUpdateManifestUrl) {
+    const nativeUpdateUrl = AndroidKds.getUpdateManifestUrl();
+    if(nativeUpdateUrl && !config.updateManifestUrl) {
+      config.updateManifestUrl = nativeUpdateUrl;
+      saveConfig(config);
+    }
+  }
+} catch(e) {}
+
+function kdsHeaders() {
+  const target = 'http://' + (config.posIp || DEFAULT.posIp) + ':' + (config.posPort || DEFAULT.posPort);
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + config.token,
+    'X-KDS-Target': target
+  };
+}
+
+async function kdsPost(url, body) {
+  if(window.AndroidKds && AndroidKds.postJson) {
+    const target = 'http://' + (config.posIp || DEFAULT.posIp) + ':' + (config.posPort || DEFAULT.posPort);
+    const text = AndroidKds.postJson(url, JSON.stringify(body || {}), config.token || DEFAULT.token, target);
+    try { return JSON.parse(text); }
+    catch(e) { return {resultCode:'9999', resultMessage:text || String(e), kdsListItem:[]}; }
+  }
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: url === '/did/call' ? {'Content-Type': 'application/json'} : kdsHeaders(),
+    body: JSON.stringify(body || {})
+  });
+  return await res.json().catch(() => ({}));
+}
+
+function openSettings() {
+  document.getElementById('setPosIp').value = config.posIp;
+  document.getElementById('setPosPort').value = config.posPort;
+  document.getElementById('setToken').value = config.token;
+  document.getElementById('setDidStoreCode').value = config.didStoreCode;
+  document.getElementById('setUpdateManifestUrl').value = config.updateManifestUrl || '';
+  document.getElementById('setRecipeDataUrl').value = config.recipeDataUrl || '';
+  document.getElementById('setInterval').value = config.pollInterval;
+  document.getElementById('settingsOverlay').classList.add('show');
+}
+function closeSettings(e) {
+  if(e.target === document.getElementById('settingsOverlay'))
+    document.getElementById('settingsOverlay').classList.remove('show');
+}
+function saveSettings() {
+  config.posIp = document.getElementById('setPosIp').value.trim() || DEFAULT.posIp;
+  config.posPort = document.getElementById('setPosPort').value.trim() || DEFAULT.posPort;
+  config.token = document.getElementById('setToken').value.trim() || DEFAULT.token;
+  config.didStoreCode = document.getElementById('setDidStoreCode').value.trim() || DEFAULT.didStoreCode;
+  config.updateManifestUrl = document.getElementById('setUpdateManifestUrl').value.trim();
+  config.recipeDataUrl = document.getElementById('setRecipeDataUrl').value.trim();
+  config.pollInterval = parseInt(document.getElementById('setInterval').value) || 1;
+  saveConfig(config);
+  try {
+    if(window.AndroidKds && AndroidKds.setUpdateManifestUrl) {
+      AndroidKds.setUpdateManifestUrl(config.updateManifestUrl || '');
+    }
+  } catch(e) {}
+  document.getElementById('settingsOverlay').classList.remove('show');
+  refreshRemoteRecipes();
+  restartPolling();
+}
+
+// ── 상태 ──
+let activeOrders = [];   // 현재 대기/제조중 주문
+let doneOrders = [];     // 완료된 주문 (로컬 보관)
+let showDone = false;
+let kdsPage = 0;
+let pageSize = parseInt(localStorage.getItem('kds_page_size'), 10) || 4;
+let pageAnim = '';
+let pageLocked = false;
+let madeItems = {};      // {orderSeq_itemIdx: true}
+let knownSeqs = new Set();
+let pollTimer = null;
+let audioCtx = null;
+let lastRawOrders = [];
+let lastCompletedOrder = null;
+
+const MEGA_RECIPE_ROWS = [{"id":"MEGA-DRINK-001","no":"1","category":"커피","temp":"HOT","name":"에스프레소","stdName":"에스프레소","price":"1,500원","cup":"","lines":["1샷 넣기"],"keywords":"에스프레소 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-002","no":"2","category":"커피","temp":"HOT","name":"에스프레소 도피오","stdName":"에스프레소 도피오","price":"2,000원","cup":"","lines":["2샷 넣기"],"keywords":"에스프레소 도피오 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-003","no":"3","category":"커피","temp":"HOT","name":"아메리카노","stdName":"아메리카노","price":"1,700원","cup":"20oz","lines":["20oz컵 + 온수 8부 (425ml)","2샷 넣기"],"keywords":"아메리카노 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-004","no":"4","category":"커피","temp":"HOT","name":"꿀아메리카노","stdName":"꿀아메리카노","price":"2,700원","cup":"20oz","lines":["20oz컵 + 온수 8부 (425ml)","꿀 2래들 (샷잔 1/4선) + 2샷 넣기"],"keywords":"꿀아메리카노 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-005","no":"5","category":"커피","temp":"HOT","name":"헛개리카노","stdName":"헛개리카노","price":"2,400원","cup":"20oz","lines":["20oz컵 + 온수 8부 (400ml)","헛개베이스 3P + 2샷 넣기"],"keywords":"헛개리카노 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-006","no":"6","category":"커피","temp":"HOT","name":"헤이즐넛아메리카노","stdName":"헤이즐넛아메리카노","price":"2,700원","cup":"20oz","lines":["20oz컵 + 온수 8부 (400ml)","헤이즐넛시럽 3P + 2샷 넣기"],"keywords":"헤이즐넛아메리카노 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-007","no":"7","category":"커피","temp":"HOT","name":"바닐라아메리카노","stdName":"바닐라아메리카노","price":"2,700원","cup":"20oz","lines":["20oz컵 + 온수 8부 (400ml)","바닐라시럽 3P + 2샷 넣기"],"keywords":"바닐라아메리카노 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-008","no":"8","category":"커피","temp":"HOT","name":"카페라떼","stdName":"카페라떼","price":"2,900원","cup":"20oz","lines":["20oz컵 + 스팀우유 275ml","2샷 넣기"],"keywords":"카페라떼 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-009","no":"9","category":"커피","temp":"HOT","name":"카푸치노","stdName":"카푸치노","price":"2,900원","cup":"20oz","lines":["20oz컵 + 스팀우유 225ml x","2샷 넣기","토핑 : 시나몬파우더"],"keywords":"카푸치노 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-010","no":"10","category":"커피","temp":"HOT","name":"카라멜마끼아또","stdName":"카라멜마끼아또","price":"3,700원","cup":"20oz","lines":["20oz컵 + 스팀우유 250ml","카라멜시럽 3P + 2샷 넣기","토핑 : 카라멜드리즐"],"keywords":"카라멜마끼아또 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-011","no":"11","category":"커피","temp":"HOT","name":"헤이즐넛라떼","stdName":"헤이즐넛라떼","price":"3,400원","cup":"20oz","lines":["20oz컵 + 스팀우유 250ml","헤이즐넛시럽 3P + 2샷 넣기"],"keywords":"헤이즐넛라떼 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-012","no":"12","category":"커피","temp":"HOT","name":"바닐라라떼","stdName":"바닐라라떼","price":"3,400원","cup":"20oz","lines":["20oz컵 + 스팀우유 250ml","바닐라시럽 3P + 2샷 넣기"],"keywords":"바닐라라떼 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-013","no":"13","category":"커피","temp":"HOT","name":"연유라떼","stdName":"연유라떼","price":"3,900원","cup":"20oz","lines":["20oz컵 + 스팀우유 250ml","연유 2래들 (샷잔 1/4선) + 슈가시럽 1P + 2샷 넣기"],"keywords":"연유라떼 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-014","no":"14","category":"커피","temp":"HOT","name":"카페모카","stdName":"카페모카","price":"3,900원","cup":"20oz","lines":["20oz컵 + 스팀우유 250ml","초코파우더 2래들 + 2샷 넣기","토핑 : 일반휘핑 (30g) + 초코드리즐"],"keywords":"카페모카 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-015","no":"15","category":"커피","temp":"ICE","name":"아메리카노","stdName":"아메리카노","price":"2,000원","cup":"24oz","lines":["24oz컵 얼음 가득 + 정수 9부 (275ml)","2샷 넣기"],"keywords":"아메리카노 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-016","no":"16","category":"커피","temp":"ICE","name":"메가리카노","stdName":"메가리카노","price":"3,300원","cup":"32oz","lines":["32oz컵 얼음 가득 + 정수 9부 (400ml)","3샷 넣기"],"keywords":"메가리카노 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-017","no":"17","category":"커피","temp":"ICE","name":"헛개리카노","stdName":"헛개리카노","price":"2,400원","cup":"24oz","lines":["24oz컵 얼음 가득 + 정수 9부 (250ml)","헛개베이스 3P + 2샷 넣기"],"keywords":"헛개리카노 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-018","no":"18","category":"커피","temp":"ICE","name":"왕메가헛개리카노","stdName":"왕메가헛개리카노","price":"3,400원","cup":"32oz","lines":["32oz컵 얼음 가득 + 정수 9부 (375ml)","헛개베이스 5P + 3샷 넣기"],"keywords":"왕메가헛개리카노 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-019","no":"19","category":"커피","temp":"ICE","name":"꿀아메리카노","stdName":"꿀아메리카노","price":"2,700원","cup":"24oz","lines":["24oz컵 얼음 가득 + 정수 8.5부 (250ml)","꿀 2래들 (샷잔 1/4선) + 2샷 넣기"],"keywords":"꿀아메리카노 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-020","no":"20","category":"커피","temp":"ICE","name":"헤이즐넛아메리카노","stdName":"헤이즐넛아메리카노","price":"2,700원","cup":"24oz","lines":["24oz컵 얼음 가득 + 정수 8.5부 (250ml)","헤이즐넛시럽 4P + 2샷 넣기"],"keywords":"헤이즐넛아메리카노 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-021","no":"21","category":"커피","temp":"ICE","name":"바닐라아메리카노","stdName":"바닐라아메리카노","price":"2,700원","cup":"24oz","lines":["24oz컵 얼음 가득 + 정수 8.5부 (250ml)","바닐라시럽 4P + 2샷 넣기"],"keywords":"바닐라아메리카노 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-022","no":"22","category":"커피","temp":"ICE","name":"카페라떼","stdName":"카페라떼","price":"2,900원","cup":"20oz","lines":["20oz컵 얼음 가득 + 우유 8부 (225ml)","2샷 넣기"],"keywords":"카페라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-023","no":"23","category":"커피","temp":"ICE","name":"왕메가카페라떼","stdName":"왕메가카페라떼","price":"4,400원","cup":"32oz","lines":["32oz컵 얼음 가득 + 우유 9부 (400ml)","3샷 넣기"],"keywords":"왕메가카페라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-024","no":"24","category":"커피","temp":"ICE","name":"헤이즐넛라떼","stdName":"헤이즐넛라떼","price":"3,400원","cup":"20oz","lines":["20oz컵 얼음 가득 + 우유 A선 (200ml)","헤이즐넛시럽 4P + 2샷 넣기"],"keywords":"헤이즐넛라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-025","no":"25","category":"커피","temp":"ICE","name":"바닐라라떼","stdName":"바닐라라떼","price":"3,400원","cup":"20oz","lines":["20oz컵 얼음 가득 + 우유 A선 (200ml)","바닐라시럽 4P + 2샷 넣기"],"keywords":"바닐라라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-026","no":"26","category":"커피","temp":"ICE","name":"라이트 바닐라 아몬드라떼","stdName":"라이트 바닐라 아몬드라떼","price":"3,900원","cup":"20oz","lines":["20oz컵 얼음 가득 + 아몬드밀크 A선 (200ml)","라이트바닐라시럽 4P + 2샷 넣기"],"keywords":"라이트 바닐라 아몬드라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-027","no":"27","category":"커피","temp":"ICE","name":"연유라떼","stdName":"연유라떼","price":"3,900원","cup":"20oz","lines":["20oz컵 얼음 가득 + 우유 A선 (200ml)","연유 2래들 (샷잔 1/4선) + 2샷 넣기"],"keywords":"연유라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-028","no":"28","category":"커피","temp":"ICE","name":"큐브라떼","stdName":"큐브라떼","price":"4,200원","cup":"20oz","lines":["20oz컵 얼음 컵선 + 우유 A선 (200ml)","연유 2래들 (샷잔 1/4선) 에스프레소 큐브 2ea + 2샷 넣기"],"keywords":"큐브라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-029","no":"29","category":"커피","temp":"ICE","name":"카페모카","stdName":"카페모카","price":"3,900원","cup":"20oz","lines":["20oz컵 얼음 컵선 + 우유 A선 (125ml)","초코베이스 75ml (컵 밑선) + 2샷 넣기","토핑 : 일반휘핑 (30g) + 초코드리즐"],"keywords":"카페모카 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-030","no":"30","category":"커피","temp":"ICE","name":"초코젤라또 말차라떼","stdName":"초코젤라또 말차라떼","price":"3,900원","cup":"20oz","lines":["20oz컵 얼음 컵선 + 우유 8부 (150ml)","녹차베이스 75ml (컵 밑선) + 1샷 넣기","토핑 : 초코드리즐 + 초코젤라또"],"keywords":"초코젤라또 말차라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-031","no":"31","category":"커피","temp":"ICE","name":"카푸치노","stdName":"카푸치노","price":"2,900원","cup":"20oz","lines":["20oz컵 얼음 컵선 + 우유 B선 (150ml) + 우유거품 (40g) x","2샷 넣기","토핑 : 시나몬파우더"],"keywords":"카푸치노 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-032","no":"32","category":"커피","temp":"ICE","name":"카라멜마끼아또","stdName":"카라멜마끼아또","price":"3,700원","cup":"20oz","lines":["20oz컵 얼음 컵선 + 우유 B선 (150ml) + 우유 거품 (40g)","카라멜시럽 4P + 2샷 넣기","토핑 : 카라멜드리즐"],"keywords":"카라멜마끼아또 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-033","no":"33","category":"커피","temp":"ICE","name":"할메가커피","stdName":"할메가커피","price":"2,100원","cup":"20oz","lines":["20oz컵 얼음 가득","할메가커피베이스 가득 (약 300ml)"],"keywords":"할메가커피 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-034","no":"34","category":"커피","temp":"ICE","name":"왕할메가커피","stdName":"왕할메가커피","price":"3,200원","cup":"32oz","lines":["32oz컵 얼음 가득","할메가커피베이스 가득 (약 475ml)"],"keywords":"왕할메가커피 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-035","no":"35","category":"커피","temp":"ICE","name":"할메가미숫커피","stdName":"할메가미숫커피","price":"2,900원","cup":"20oz","lines":["블렌더에 할메가커피베이스 300ml + 곡물파우더 3래들 넣고 블렌딩(3번)","20oz컵 얼음 가득 + 블렌더 음료 붓기"],"keywords":"할메가미숫커피 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-036","no":"36","category":"차/티","temp":"HOT","name":"얼그레이","stdName":"얼그레이","price":"2,500원","cup":"20oz","lines":["20oz컵 + 티백 1ea","온수 9부 (475ml) 얼그레이"],"keywords":"얼그레이 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-037","no":"37","category":"차/티","temp":"HOT","name":"녹차","stdName":"녹차","price":"2,500원","cup":"20oz","lines":["20oz컵 + 티백 1ea","온수 9부 (475ml) 녹차"],"keywords":"녹차 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-038","no":"38","category":"차/티","temp":"HOT","name":"캐모마일","stdName":"캐모마일","price":"2,500원","cup":"20oz","lines":["20oz컵 + 티백 1ea","온수 9부 (475ml) 캐모마일"],"keywords":"캐모마일 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-039","no":"39","category":"차/티","temp":"HOT","name":"페퍼민트","stdName":"페퍼민트","price":"2,500원","cup":"20oz","lines":["20oz컵 + 티백 1ea","온수 9부 (475ml) 페퍼민트"],"keywords":"페퍼민트 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-040","no":"40","category":"차/티","temp":"HOT","name":"유자차","stdName":"유자차","price":"3,300원","cup":"20oz","lines":["20oz컵 + 유자청 5청래들","온수 9부 (375ml)"],"keywords":"유자차 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-041","no":"41","category":"차/티","temp":"HOT","name":"레몬차","stdName":"레몬차","price":"3,300원","cup":"20oz","lines":["20oz컵 + 레몬청 5청래들","온수 9부 (375ml)","토핑 : 레몬슬라이스"],"keywords":"레몬차 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-042","no":"42","category":"차/티","temp":"HOT","name":"자몽차","stdName":"자몽차","price":"3,300원","cup":"20oz","lines":["20oz컵 + 자몽청 4청래들 + 슈가시럽 2P   (4등분)","온수 9부 (375ml)","토핑 : 자몽슬라이스"],"keywords":"자몽차 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-043","no":"43","category":"차/티","temp":"HOT","name":"유자생강차","stdName":"유자생강차","price":"3,300원","cup":"20oz","lines":["20oz컵 + 유자청 4청래들 + 생강베이스 8P","온수 9부 (350ml)","토핑 : 레몬슬라이스"],"keywords":"유자생강차 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-044","no":"44","category":"차/티","temp":"HOT","name":"상큼리치티","stdName":"상큼리치티","price":"3,900원","cup":"20oz","lines":["20oz컵 + 베이스 100ml + ② 냉동 레드 커런트 1래들","온수 9부 (400ml) ① 리치","토핑 : 로즈마리"],"keywords":"상큼리치티 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-045","no":"45","category":"차/티","temp":"HOT","name":"허니자몽블랙티","stdName":"허니자몽블랙티","price":"3,700원","cup":"20oz","lines":["20oz컵 + 자몽청 3청래들 + 꿀 1래들 (약26.5g) + 얼그레이 티백 1ea   (4등분)","온수 9부 (375ml)","토핑 : 자몽슬라이스"],"keywords":"허니자몽블랙티 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-046","no":"46","category":"차/티","temp":"HOT","name":"사과유자차","stdName":"사과유자차","price":"3,500원","cup":"20oz","lines":["20oz컵 + 유자청 4청래들 + 애플 티백 1ea","온수 9부 (375ml)"],"keywords":"사과유자차 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-047","no":"47","category":"차/티","temp":"ICE","name":"얼그레이","stdName":"얼그레이","price":"2,500원","cup":"24oz","lines":["24oz컵 + 티백 2ea","얼음 가득 + 정수 가득 (100ml) 온수 (계량컵 150ml) + 얼그레이","토핑 : 애플민트"],"keywords":"얼그레이 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-048","no":"48","category":"차/티","temp":"ICE","name":"녹차","stdName":"녹차","price":"2,500원","cup":"24oz","lines":["24oz컵 + 티백 2ea","얼음 가득 + 정수 가득 (100ml) 온수 (계량컵 150ml) + 녹차","토핑 : 애플민트"],"keywords":"녹차 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-049","no":"49","category":"차/티","temp":"ICE","name":"캐모마일","stdName":"캐모마일","price":"2,500원","cup":"24oz","lines":["24oz컵 + 티백 2ea","얼음 가득 + 정수 가득 (100ml) 온수 (계량컵 150ml) + 캐모마일","토핑 : 애플민트"],"keywords":"캐모마일 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-050","no":"50","category":"차/티","temp":"ICE","name":"페퍼민트","stdName":"페퍼민트","price":"2,500원","cup":"24oz","lines":["24oz컵 + 티백 2ea","얼음 가득 + 정수 가득 (100ml) 온수 (계량컵 150ml) + 페퍼민트","토핑 : 애플민트"],"keywords":"페퍼민트 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-051","no":"51","category":"차/티","temp":"ICE","name":"유자차","stdName":"유자차","price":"3,300원","cup":"24oz","lines":["24oz컵 + 유자청 6청래들 + 온수 50ml","얼음 가득 + 정수 가득 (150ml)","토핑 : 애플민트"],"keywords":"유자차 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-052","no":"52","category":"차/티","temp":"ICE","name":"레몬차","stdName":"레몬차","price":"3,300원","cup":"24oz","lines":["24oz컵 + 레몬청 6청래들 + 온수 50ml","얼음 가득 + 정수 가득 (150ml)","토핑 : 레몬슬라이스 + 애플민트"],"keywords":"레몬차 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-053","no":"53","category":"차/티","temp":"ICE","name":"자몽차","stdName":"자몽차","price":"3,300원","cup":"24oz","lines":["24oz컵 + 자몽청 4청래들 + 슈가시럽 1P + 온수 50ml","얼음 가득 + 정수 가득 (175ml)","토핑 : 자몽슬라이스 + 애플민트"],"keywords":"자몽차 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-054","no":"54","category":"차/티","temp":"ICE","name":"상큼리치티","stdName":"상큼리치티","price":"3,900원","cup":"24oz","lines":["24oz컵 + 베이스 100ml (컵 밑선) + ② 냉동 레드 커런트 1래들","얼음 가득 + 정수 가득 (250ml) ① 리치","토핑 : 로즈마리"],"keywords":"상큼리치티 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-055","no":"55","category":"차/티","temp":"ICE","name":"허니자몽블랙티","stdName":"허니자몽블랙티","price":"3,700원","cup":"","lines":["계량컵에 온수 75ml + 얼그레이 티백 1ea 우려두기","24oz컵에 자몽청 3청래들 + 꿀 1래들 + 우린 티백 넣기","얼음 가득 + 정수 가득 (125ml)","토핑 : 자몽슬라이스 + 애플민트"],"keywords":"허니자몽블랙티 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-056","no":"56","category":"차/티","temp":"ICE","name":"사과유자차","stdName":"사과유자차","price":"3,500원","cup":"","lines":["계량컵에 온수 75ml + 애플 티백 1ea 우려두기","24oz컵에 유자청 4청래들 + 우린 티백 넣기","얼음 가득 + 정수 가득 (125ml)","토핑 : 애플민트"],"keywords":"사과유자차 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-057","no":"57","category":"차/티","temp":"ICE","name":"왕메가사과유자차","stdName":"왕메가사과유자차","price":"4,400원","cup":"","lines":["계량컵에 온수 125ml + 애플 티백 2ea 넣고 3분 우리기","32oz컵에 유자청 6청래들 + 우린 물과 티백 넣고 섞기","얼음 가득 + 정수 9부 (175ml)","토핑 : 애플민트"],"keywords":"왕메가사과유자차 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-058","no":"58","category":"차/티","temp":"ICE","name":"복숭아아이스티","stdName":"복숭아아이스티","price":"3,000원","cup":"24oz","lines":["24oz컵 + 아이스티 베이스 125ml (Z선)","얼음 가득 + 정수 가득 (175ml)","토핑 : 애플민트"],"keywords":"복숭아아이스티 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-059","no":"59","category":"차/티","temp":"ICE","name":"왕메가아이스티","stdName":"왕메가아이스티","price":"3,900원","cup":"32oz","lines":["32oz컵 + 아이스티 베이스 245g (I선)","얼음 가득 + 정수 가득 (275ml)","토핑 : 애플민트"],"keywords":"왕메가아이스티 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-060","no":"60","category":"차/티","temp":"ICE","name":"제로복숭아아이스티","stdName":"제로복숭아아이스티","price":"3,000원","cup":"24oz","lines":["24oz컵 + 제로슈가 아이스티시럽 5P (약 48g)","얼음 가득 + 정수 가득 (275ml)","토핑 : 애플민트"],"keywords":"제로복숭아아이스티 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-061","no":"61","category":"논커피 라떼/초코","temp":"HOT","name":"녹차라떼","stdName":"녹차라떼","price":"3,500원","cup":"20oz","lines":["20oz컵 + 2래들","스팀우유 250ml","토핑 : 녹차파우더"],"keywords":"녹차라떼 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-062","no":"62","category":"논커피 라떼/초코","temp":"HOT","name":"로얄밀크티","stdName":"로얄밀크티","price":"3,700원","cup":"20oz","lines":["20oz컵 + 홍차파우더 2래들","스팀우유 250ml"],"keywords":"로얄밀크티 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-063","no":"63","category":"논커피 라떼/초코","temp":"HOT","name":"핫초코","stdName":"핫초코","price":"3,500원","cup":"20oz","lines":["20oz컵 + 초코파우더 4래들","스팀우유 250ml","토핑 : 코코아파우더"],"keywords":"핫초코 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-064","no":"64","category":"논커피 라떼/초코","temp":"HOT","name":"토피넛라떼","stdName":"토피넛라떼","price":"3,800원","cup":"20oz","lines":["20oz컵 + 토피넛파우더 4래들","스팀우유 250ml","토핑 : 카라멜드리즐"],"keywords":"토피넛라떼 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-065","no":"65","category":"논커피 라떼/초코","temp":"HOT","name":"고구마라떼","stdName":"고구마라떼","price":"3,500원","cup":"20oz","lines":["20oz컵 + 고구마페이스트 1스쿱 + 슈가시럽 1P","스팀우유 275ml(80℃)","토핑 : 아몬드슬라이스 (작은래들)"],"keywords":"고구마라떼 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-066","no":"66","category":"논커피 라떼/초코","temp":"HOT","name":"곡물라떼","stdName":"곡물라떼","price":"3,300원","cup":"20oz","lines":["20oz컵 + 곡물파우더 4래들 + 슈가시럽 1P","스팀우유 275ml","토핑 : 아몬드슬라이스 (작은래들)"],"keywords":"곡물라떼 HOT","status":"초안","note":""},{"id":"MEGA-DRINK-067","no":"67","category":"논커피 라떼/초코","temp":"ICE","name":"녹차라떼","stdName":"녹차라떼","price":"3,500원","cup":"20oz","lines":["20oz컵 + 녹차베이스 75ml (컵 밑선)","얼음 가득 + 우유 가득 (225ml)"],"keywords":"녹차라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-068","no":"68","category":"논커피 라떼/초코","temp":"ICE","name":"아이스초코","stdName":"아이스초코","price":"3,500원","cup":"20oz","lines":["20oz컵 + 초코베이스 130ml (D선)","얼음 가득 + 우유 가득 (150ml)"],"keywords":"아이스초코 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-069","no":"69","category":"논커피 라떼/초코","temp":"ICE","name":"왕메가초코","stdName":"왕메가초코","price":"4,400원","cup":"32oz","lines":["32oz컵 + 초코베이스 240g (I선)","얼음 가득 + 우유 가득 (275ml)"],"keywords":"왕메가초코 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-070","no":"70","category":"논커피 라떼/초코","temp":"ICE","name":"딸기라떼","stdName":"딸기라떼","price":"3,700원","cup":"20oz","lines":["20oz컵 + 가당딸기 200ml + 슈가시럽 3P [가위 컷팅]","얼음 가득 + 우유 가득 (125ml)"],"keywords":"딸기라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-071","no":"71","category":"논커피 라떼/초코","temp":"ICE","name":"곡물라떼","stdName":"곡물라떼","price":"3,300원","cup":"20oz","lines":["블렌더에 우유 250ml + 곡물파우더 4래들 + 슈가시럽 1P 넣고 블렌딩(3번)","20oz컵 얼음 가득 + 블렌더 음료 붓기"],"keywords":"곡물라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-072","no":"72","category":"논커피 라떼/초코","temp":"ICE","name":"토피넛라떼","stdName":"토피넛라떼","price":"3,800원","cup":"20oz","lines":["블렌더에 우유 250ml + 토피넛파우더 4래들 넣고 블렌딩(3번)","20oz컵 얼음 가득 + 블렌더 음료 붓기"],"keywords":"토피넛라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-073","no":"73","category":"논커피 라떼/초코","temp":"ICE","name":"고구마라떼","stdName":"고구마라떼","price":"3,500원","cup":"20oz","lines":["블렌더에 우유 200ml + 고구마페이스트 1스쿱 + 슈가시럽 1P 넣고 블렌딩(3번)","20oz컵 얼음 가득 + 블렌더 음료 붓기"],"keywords":"고구마라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-074","no":"74","category":"논커피 라떼/초코","temp":"ICE","name":"로얄밀크티","stdName":"로얄밀크티","price":"3,700원","cup":"20oz","lines":["블렌더에 우유 200ml + 홍차파우더 2래들 넣고 블렌딩(3번)","20oz컵 얼음 가득 + 블렌더 음료 붓기"],"keywords":"로얄밀크티 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-075","no":"75","category":"논커피 라떼/초코","temp":"ICE","name":"오레오초코라떼","stdName":"오레오초코라떼","price":"3,900원","cup":"20oz","lines":["블렌더에 우유 200ml + 초코베이스 50ml + 오레오과자 3ea 넣고 블렌딩(3번/5초)","20oz컵 얼음 컵선 + 블렌더 음료 붓기","토핑 : 일반휘핑 (30g) + 오레오 1ea + 쿠키분태"],"keywords":"오레오초코라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-076","no":"76","category":"에이드","temp":"ICE","name":"체리콜라","stdName":"체리콜라","price":"3,300원","cup":"24oz","lines":["24oz컵 + 체리베이스 100ml (컵 밑선)","얼음 가득 + 콜라 가득 (250ml)","토핑 : 애플민트"],"keywords":"체리콜라 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-077","no":"77","category":"에이드","temp":"ICE","name":"레몬에이드","stdName":"레몬에이드","price":"3,500원","cup":"24oz","lines":["24oz컵 + 레몬퓨레 1.5P + 슈가시럽 1P","얼음 가득 + 사이다 가득 (250ml)","토핑 : 레몬슬라이스 + 애플민트"],"keywords":"레몬에이드 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-078","no":"78","category":"에이드","temp":"ICE","name":"블루레몬에이드","stdName":"블루레몬에이드","price":"3,500원","cup":"24oz","lines":["24oz컵 + 레몬퓨레 1.5P + 블루큐라소시럽 2P","얼음 가득 + 사이다 가득 (250ml)","토핑 : 레몬슬라이스 + 애플민트"],"keywords":"블루레몬에이드 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-079","no":"79","category":"에이드","temp":"ICE","name":"자몽에이드","stdName":"자몽에이드","price":"3,500원","cup":"24oz","lines":["24oz컵 + 자몽퓨레 1P + 자몽시럽 1P + 슈가시럽 1P","얼음 가득 + 사이다 가득 (250ml)","토핑 : 자몽슬라이스 + 애플민트"],"keywords":"자몽에이드 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-080","no":"80","category":"에이드","temp":"ICE","name":"청포도에이드","stdName":"청포도에이드","price":"3,500원","cup":"24oz","lines":["24oz컵 + 청포도퓨레 2P + 라임시럽 1P","얼음 가득 + 사이다 가득 (250ml)","토핑 : 애플민트"],"keywords":"청포도에이드 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-081","no":"81","category":"에이드","temp":"ICE","name":"제로부스트에이드","stdName":"제로부스트에이드","price":"3,000원","cup":"24oz","lines":["24oz컵 + 부스터베이스 1.5P","얼음 가득 + 제로사이다 가득 (250ml)","토핑 : 레몬슬라이스 1ea"],"keywords":"제로부스트에이드 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-082","no":"82","category":"에이드","temp":"ICE","name":"메가에이드","stdName":"메가에이드","price":"3,900원","cup":"24oz","lines":["24oz컵 + 메가에이드베이스 2P + 1ea (4등분) + 2ea + 라임슬라이스 2ea","얼음 가득 + 사이다 가득 (250ml)","토핑 : 레몬슬라이스 + 자몽슬라이스 + 애플민트"],"keywords":"메가에이드 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-083","no":"83","category":"에이드","temp":"ICE","name":"라임모히또","stdName":"라임모히또","price":"3,800원","cup":"24oz","lines":["24oz컵 + 라임시럽 3P + 모히또시럽 4P + 라임슬라이스 4ea + 4ea(*4ea)","얼음 가득 + 사이다 가득 (250ml)","토핑 : 애플민트"],"keywords":"라임모히또 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-084","no":"84","category":"스무디/프라페","temp":"ICE","name":"플레인요거트스무디","stdName":"플레인요거트스무디","price":"3,900원","cup":"","lines":["블렌더에 우유 200ml + 요거트파우더 6래들 + 슈가시럽 1P + 얼음가득 넣고 블렌딩(3번)","20oz컵에 블렌더 음료 붓기"],"keywords":"플레인요거트스무디 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-085","no":"85","category":"스무디/프라페","temp":"ICE","name":"망고요거트스무디","stdName":"망고요거트스무디","price":"3,900원","cup":"","lines":["블렌더에 우유 150ml + 요거트파우더 3래들 + 골드망고베이스 1P + 해동망고 10ea + 얼음가득 넣고 블렌딩(3번)","20oz컵에 블렌더 음료 붓기"],"keywords":"망고요거트스무디 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-086","no":"86","category":"스무디/프라페","temp":"ICE","name":"딸기요거트스무디","stdName":"딸기요거트스무디","price":"3,900원","cup":"","lines":["블렌더에 우유 150ml + 요거트파우더 3래들 + 가당딸기 150ml + 슈가시럽 1P + 얼음가득 넣고 블렌딩(3번)","20oz컵에 블렌더 음료 붓기"],"keywords":"딸기요거트스무디 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-087","no":"87","category":"스무디/프라페","temp":"ICE","name":"블루베리요거트스무디","stdName":"블루베리요거트스무디","price":"3,900원","cup":"20oz","lines":["블렌더에 우유 150ml + 요거트파우더 3래들 + 블루베리베이스 3래들 + 슈가시럽 1P + 얼음가득 넣고 블렌딩(3번)","20oz컵 바닥에 블루베리베이스 1래들 8부선 이하로 돌리고 + 블렌더 음료 붓기"],"keywords":"블루베리요거트스무디 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-088","no":"88","category":"스무디/프라페","temp":"ICE","name":"골드망고스무디","stdName":"골드망고스무디","price":"3,900원","cup":"","lines":["블렌더에 물 150ml + 골드망고베이스 3.5P + 해동망고 5ea + 얼음가득 넣고 블렌딩(3번)","20oz컵에 블렌더 음료 붓기"],"keywords":"골드망고스무디 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-089","no":"89","category":"스무디/프라페","temp":"ICE","name":"귤톡톡젤리스무디","stdName":"귤톡톡젤리스무디","price":"3,900원","cup":"20oz","lines":["블렌더에 물 150ml + 귤베이스 5래들 + 슈가시럽 1P + 얼음가득 넣고 블렌딩(3번)","20oz컵 바닥에 감귤워터젤리 약80g 깔고 + 블렌더 음료 붓기","토핑 : 애플민트"],"keywords":"귤톡톡젤리스무디 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-090","no":"90","category":"스무디/프라페","temp":"ICE","name":"코코넛커피스무디","stdName":"코코넛커피스무디","price":"4,800원","cup":"20oz","lines":["블렌더에 코코넛베이스 250ml + 코코넛칩 1래들 + 얼음가득 넣고 블렌딩(3번)","20oz컵 바닥에 식힌 샷 50ml 넣고 + 블렌더 음료 붓기","토핑 : 코코넛칩 1래들 (약 5g)"],"keywords":"코코넛커피스무디 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-091","no":"91","category":"스무디/프라페","temp":"ICE","name":"밀크쉐이크","stdName":"밀크쉐이크","price":"2,900원","cup":"","lines":["블렌더에 우유 200ml + 밀크쉐이크파우더 5래들 + 얼음가득 넣고 블렌딩(3번)","20oz컵에 블렌더 음료 붓기"],"keywords":"밀크쉐이크 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-092","no":"92","category":"스무디/프라페","temp":"ICE","name":"쿠키프라페","stdName":"쿠키프라페","price":"3,900원","cup":"","lines":["블렌더에 쿠키베이스 250ml + 3래들 + 얼음가득 넣고 블렌딩(3번)","20oz컵바닥에 쿠키베이스 1래들 깔고 + 블렌더 음료 붓기","토핑 : 휘핑 (30g) + 오레오 2ea (컷팅) + 쿠키분태"],"keywords":"쿠키프라페 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-093","no":"93","category":"스무디/프라페","temp":"ICE","name":"리얼초코프라페","stdName":"리얼초코프라페","price":"3,900원","cup":"","lines":["블렌더에 쿠키베이스 100ml + 초코베이스 150ml + 초콜릿칩 1래들 + 얼음가득 넣고 블렌딩(3번)","20oz컵에 블렌더 음료 붓기","토핑 : 일반휘핑 (30g) + 초코드리즐 + 카라멜드리즐 + 딸기분태"],"keywords":"리얼초코프라페 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-094","no":"94","category":"스무디/프라페","temp":"ICE","name":"녹차프라페","stdName":"녹차프라페","price":"3,900원","cup":"","lines":["블렌더에 쿠키베이스 125ml + 녹차베이스 125ml + 얼음가득 넣고 블렌딩(3번)","20oz컵에 블렌더 음료 붓기","토핑 : 일반휘핑 (30g) + 녹차파우더"],"keywords":"녹차프라페 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-095","no":"95","category":"스무디/프라페","temp":"ICE","name":"커피프라페","stdName":"커피프라페","price":"3,900원","cup":"","lines":["블렌더에 쿠키베이스 200ml + 식힌 샷 50ml + 얼음가득 넣고 블렌딩(3번)","20oz컵에 블렌더 음료 붓기","토핑 : 일반휘핑 (30g) + 식힌 샷 + 카라멜드리즐"],"keywords":"커피프라페 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-096","no":"96","category":"스무디/프라페","temp":"ICE","name":"민트프라페","stdName":"민트프라페","price":"3,900원","cup":"","lines":["블렌더에 우유 150ml + 민트베이스파우더 5래들 + 민트시럽 3P + 초콜릿칩 1래들 + 얼음가득 넣고 블렌딩(3번)","20oz컵에 블렌더 음료 붓기","토핑 : 일반휘핑 (30g) + 딸기분태"],"keywords":"민트프라페 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-097","no":"97","category":"스무디/프라페","temp":"ICE","name":"딸기쿠키프라페","stdName":"딸기쿠키프라페","price":"3,900원","cup":"20oz","lines":["블렌더에 우유 100ml + 쿠키베이스 100ml + 얼음 컵선 넣고 블렌딩(3번)","20oz컵 바닥에 쿠키분태 2래들 깔고 + 블렌더에 딸기소스 2P 넣어 마블링 후 붓기","토핑 : 일반휘핑 (30g) + 쿠키분태"],"keywords":"딸기쿠키프라페 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-098","no":"98","category":"스무디/프라페","temp":"ICE","name":"플레인퐁크러쉬","stdName":"플레인퐁크러쉬","price":"3,900원","cup":"20oz","lines":["블렌더에 우유 100ml + 쿠키베이스 150ml + 죠리퐁 1컵 + 슈가시럽 2P + 얼음가득 넣고 블렌딩(3번)","20oz컵 바닥에 죠리퐁(7g) 깔고 + 블렌더 음료 붓기","토핑 : 죠리퐁 가득 (약20g)"],"keywords":"플레인퐁크러쉬 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-099","no":"99","category":"스무디/프라페","temp":"ICE","name":"바나나퐁크러쉬","stdName":"바나나퐁크러쉬","price":"3,900원","cup":"20oz","lines":["블렌더에 우유 100ml + 쿠키베이스 150ml + 죠리퐁 1컵 + 슈가시럽 2P + 바나나파우더 2래들 + 얼음가득 넣고 블렌딩(3번)","20oz컵 바닥에 죠리퐁(7g) 깔고 + 블렌더 음료 붓기","토핑 : 죠리퐁 가득 (약20g)"],"keywords":"바나나퐁크러쉬 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-100","no":"100","category":"스무디/프라페","temp":"ICE","name":"딸기퐁크러쉬","stdName":"딸기퐁크러쉬","price":"3,900원","cup":"20oz","lines":["블렌더에 우유 100ml + 쿠키베이스 150ml + 죠리퐁 1컵 + 딸기소스 1P + 얼음가득 넣고 블렌딩(3번)","20oz컵 바닥에 죠리퐁(7g) 깔고 + 블렌더 음료 붓기","토핑 : 죠리퐁 가득 (약20g)"],"keywords":"딸기퐁크러쉬 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-101","no":"101","category":"스무디/프라페","temp":"ICE","name":"초코허니퐁크러쉬","stdName":"초코허니퐁크러쉬","price":"3,900원","cup":"","lines":["블렌더에 우유 100ml + 쿠키베이스 150ml + 죠리퐁 1컵 + 초코파우더 2래들 + 얼음가득 넣고 블렌딩(3번)","20oz컵에 블렌더 음료 붓기","토핑 : 허니퍼프시리얼 가득 (약20g)"],"keywords":"초코허니퐁크러쉬 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-102","no":"102","category":"흑당","temp":"ICE","name":"흑당라떼","stdName":"흑당라떼","price":"3,300원","cup":"20oz","lines":["20oz컵 + 흑당베이스 3P","얼음 가득 + 우유 가득 (250ml)"],"keywords":"흑당라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-103","no":"103","category":"흑당","temp":"ICE","name":"흑당밀크티라떼","stdName":"흑당밀크티라떼","price":"3,500원","cup":"20oz","lines":["20oz컵 + 흑당베이스 2P + 밀크티시럽 2P","얼음 가득 + 우유 가득 (250ml)"],"keywords":"흑당밀크티라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-104","no":"104","category":"흑당","temp":"ICE","name":"흑당버블라떼","stdName":"흑당버블라떼","price":"3,700원","cup":"20oz","lines":["20oz컵 + 흑당베이스 2P + 물기 제거한 펄","얼음 가득 + 우유 가득 (250ml)"],"keywords":"흑당버블라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-105","no":"105","category":"흑당","temp":"ICE","name":"흑당버블밀크티라떼","stdName":"흑당버블밀크티라떼","price":"3,800원","cup":"20oz","lines":["20oz컵 + 흑당베이스 2P + 물기 제거한 펄 + 밀크티시럽 1P","얼음 가득 + 우유 가득 (250ml)"],"keywords":"흑당버블밀크티라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-106","no":"106","category":"주스","temp":"ICE","name":"골드키위주스","stdName":"골드키위주스","price":"4,000원","cup":"20oz","lines":["블렌더에 정수 200ml + 원팩 (골드키위) 1팩 넣고 블렌딩(1번)","20oz컵 얼음 8부 + 블렌더 음료 붓기"],"keywords":"골드키위주스 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-107","no":"107","category":"주스","temp":"ICE","name":"블루베리플럼주스","stdName":"블루베리플럼주스","price":"4,000원","cup":"20oz","lines":["블렌더에 정수 200ml + 원팩 (피치푸룬) 1팩 넣고 블렌딩(1번)","20oz컵 얼음 8부 + 블렌더 음료 붓기"],"keywords":"블루베리플럼주스 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-108","no":"108","category":"주스","temp":"ICE","name":"딸기주스","stdName":"딸기주스","price":"4,000원","cup":"20oz","lines":["블렌더에 정수 200ml + 원팩 (딸기) 1팩 넣고 블렌딩(1번)","20oz컵 얼음 8부 + 블렌더 음료 붓기"],"keywords":"딸기주스 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-109","no":"109","category":"주스","temp":"ICE","name":"딸기바나나주스","stdName":"딸기바나나주스","price":"4,000원","cup":"20oz","lines":["블렌더에 정수100ml + 우유100ml + 원팩 (딸기바나나) 1팩 넣고 블렌딩(1번)","20oz컵 얼음 8부 + 블렌더 음료 붓기"],"keywords":"딸기바나나주스 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-110","no":"110","category":"콜드브루","temp":"HOT","name":"콜드브루오리지널(HOT)","stdName":"콜드브루오리지널","price":"3,500원","cup":"20oz","lines":["20oz컵 + 콜드브루원액 100ml","온수 9부 (400ml)"],"keywords":"콜드브루오리지널 콜드브루오리지널(HOT) HOT","status":"초안","note":""},{"id":"MEGA-DRINK-111","no":"111","category":"콜드브루","temp":"HOT","name":"콜드브루라떼(HOT)","stdName":"콜드브루라떼","price":"4,000원","cup":"20oz","lines":["20oz컵 + 콜드브루원액 100ml","스팀우유 250ml(80℃)"],"keywords":"콜드브루라떼 콜드브루라떼(HOT) HOT","status":"초안","note":""},{"id":"MEGA-DRINK-112","no":"112","category":"콜드브루","temp":"ICE","name":"콜드브루오리지널(ICE)","stdName":"콜드브루오리지널","price":"3,500원","cup":"20oz","lines":["20oz컵 + 콜드브루 원액 75ml (컵 밑선)","얼음 가득 + 정수 가득 (225ml)"],"keywords":"콜드브루오리지널 콜드브루오리지널(ICE) ICE","status":"초안","note":""},{"id":"MEGA-DRINK-113","no":"113","category":"콜드브루","temp":"ICE","name":"콜드브루라떼(ICE)","stdName":"콜드브루라떼","price":"4,000원","cup":"20oz","lines":["20oz컵 + 콜드브루 원액 75ml (컵 밑선)","얼음 가득 + 우유 가득 (225ml)"],"keywords":"콜드브루라떼 콜드브루라떼(ICE) ICE","status":"초안","note":""},{"id":"MEGA-DRINK-114","no":"114","category":"꿀팁옵션","temp":"HOT","name":"녹차라떼(HOT)","stdName":"녹차라떼","price":"800원","cup":"20oz","lines":["20oz컵 + 2래들 + 바닐라시럽 1P","아몬드밀크 250ml","토핑 : 녹차파우더"],"keywords":"녹차라떼 녹차라떼(HOT) HOT","status":"초안","note":""},{"id":"MEGA-DRINK-115","no":"115","category":"꿀팁옵션","temp":"HOT","name":"곡물라떼(HOT)","stdName":"곡물라떼","price":"1,000원","cup":"20oz","lines":["20oz컵 + 곡물파우더 4래들 + 꿀 1래들 (약 26.5g [저울계량 권장])","오트밀크 275ml","토핑 : 아몬드슬라이스 (작은래들)"],"keywords":"곡물라떼 곡물라떼(HOT) HOT","status":"초안","note":""},{"id":"MEGA-DRINK-116","no":"116","category":"꿀팁옵션","temp":"ICE","name":"아메리카노(ICE)","stdName":"아메리카노","price":"700원","cup":"24oz","lines":["24oz컵","얼음 가득 + 사이다 9부 (275ml)"],"keywords":"아메리카노 아메리카노(ICE) ICE","status":"초안","note":""},{"id":"MEGA-DRINK-117","no":"117","category":"꿀팁옵션","temp":"ICE","name":"녹차라떼(ICE)","stdName":"녹차라떼","price":"800원","cup":"20oz","lines":["20oz컵 + 녹차베이스 75ml (컵 밑선) + 바닐라시럽 1P","얼음 가득 + 아몬드밀크 가득 (225ml)"],"keywords":"녹차라떼 녹차라떼(ICE) ICE","status":"초안","note":""},{"id":"MEGA-DRINK-118","no":"118","category":"꿀팁옵션","temp":"ICE","name":"딸기라떼","stdName":"딸기라떼","price":"700원","cup":"20oz","lines":["20oz컵 + 가당딸기 200ml + 연유 50g (저울계량) [가위컷팅]","얼음 가득 + 우유 가득 (125ml)"],"keywords":"딸기라떼 ICE","status":"초안","note":""},{"id":"MEGA-DRINK-119","no":"119","category":"꿀팁옵션","temp":"ICE","name":"곡물라떼(ICE)","stdName":"곡물라떼","price":"1,000원","cup":"20oz","lines":["블렌더에 오트밀크 250ml + 곡물파우더 4래들 + 꿀 1래들 (약 26.5g [저울계량 권장]) 넣고 블렌딩(3번)","20oz컵 얼음 가득 + 블렌더 음료 붓기"],"keywords":"곡물라떼 곡물라떼(ICE) ICE","status":"초안","note":""}];
+
+// ── API 호출 ──
+async function fetchOrders() {
+  const url = `/api/kds/selectAllList`;
+  const body = {
+    detailSortType: "0",
+    isRequireReturnKdsList: true,
+    isUseKdsNoInOfferMode: false,
+    kdsViewType: "2",
+    latestTime: 0,
+    maxHeaderCount: 99,
+    searchKeyword: ""
+  };
+  return await kdsPost(url, body);
+}
+
+// ── 완료 처리 API ──
+async function updateOrderCookStatusApi(order, cookStatus) {
+  const url = `/api/kds/updateItem`;
+  const details = order._raw.ordKdsDetails || [];
+  const kdsItemList = details.map(d => ({
+    cookStatus: cookStatus,
+    index: d.index || ''
+  })).filter(d => d.index);
+  if(!kdsItemList.length) return;
+  try {
+    await kdsPost(url, {
+        detailSortType: "0",
+        isRequireReturnKdsList: true,
+        isUseKdsNoInOfferMode: false,
+        kdsItemList: kdsItemList,
+        kdsViewType: "2",
+        latestTime: 0,
+        maxHeaderCount: 99,
+        searchKeyword: ""
+    });
+  } catch(e) {
+    console.warn('KDS 상태 변경 API 실패, 로컬에서만 처리:', e);
+  }
+}
+
+async function completeOrderApi(order) {
+  return updateOrderCookStatusApi(order, '03');
+}
+
+async function restoreOrderApi(order) {
+  return updateOrderCookStatusApi(order, '02');
+}
+
+function getOrderWaitNo(order) {
+  return String(order.orderWaitNo || order._raw?.ordKdsDetails?.[0]?.orderWaitNo || order._raw?.ordKdsHeader?.kdsSeq || '').trim();
+}
+
+async function callDidApi(order) {
+  const waitNo = getOrderWaitNo(order);
+  if(!waitNo) throw new Error('waitNo not found');
+  const didStoreCode = String(config.didStoreCode || DEFAULT.didStoreCode).trim();
+  const storeCode = /^\d{6}$/.test(didStoreCode) ? 'FSY' + didStoreCode : didStoreCode;
+  const data = await kdsPost('/did/call', {storeCode, waitNo});
+  const didStatus = String(data?.data?.status || '').toLowerCase();
+  console.log('DID call response:', data);
+  if(data.ok === false || didStatus === 'fail' || didStatus === 'error') {
+    throw new Error(data?.data?.message || data?.message || 'DID call failed');
+  }
+  return data;
+}
+
+async function callOrderApi(order) {
+  await callDidApi(order);
+
+  const url = `/api/kds/updateItem`;
+  const details = order._raw.ordKdsDetails || [];
+  const kdsItemList = details.map(d => ({
+    callStatus: 'Y',
+    index: d.index || ''
+  })).filter(d => d.index);
+  if(!kdsItemList.length) return;
+  try {
+    await kdsPost(url, {
+        detailSortType: "0",
+        isRequireReturnKdsList: true,
+        isUseKdsNoInOfferMode: false,
+        kdsItemList: kdsItemList,
+        kdsViewType: "2",
+        latestTime: 0,
+        maxHeaderCount: 99,
+        searchKeyword: ""
+    });
+  } catch(e) {
+    console.warn('호출 API 실패:', e);
+  }
+}
+
+// ── 폴링 ──
+async function poll() {
+  try {
+    const data = await fetchOrders();
+    document.getElementById('syncDot').className = 'sync-dot';
+
+    const items = data.kdsListItem || [];
+    lastRawOrders = items;
+
+    // 새 주문 감지 → 알림음
+    let hasNew = false;
+    items.forEach(order => {
+      const seq = String(order.ordKdsHeader?.kdsSeq || order.orderSeq || '');
+      if(seq && !knownSeqs.has(seq)) {
+        knownSeqs.add(seq);
+        hasNew = true;
+      }
+    });
+    if(hasNew) playAlert();
+
+    // 완료된 주문을 doneOrders에 이동
+    const prevSeqs = activeOrders.map(o => String(o._seq));
+    const newSeqs = items.map(o => String(o.ordKdsHeader?.kdsSeq || o.orderSeq || ''));
+
+    prevSeqs.forEach(seq => {
+      if(!newSeqs.includes(seq)) {
+        const order = activeOrders.find(o => String(o._seq) === seq);
+        if(order && !doneOrders.find(d => String(d._seq) === seq)) {
+          order._doneAt = Date.now();
+          doneOrders.unshift(order);
+          if(doneOrders.length > 50) doneOrders.pop();
+        }
+      }
+    });
+
+    activeOrders = items.map(mapOrder);
+    render();
+  } catch(e) {
+    document.getElementById('syncDot').className = 'sync-dot err';
+    console.error('폴링 오류:', e);
+  }
+}
+
+function mapOrder(raw) {
+  const header = raw.ordKdsHeader || {};
+  const details = raw.ordKdsDetails || [];
+  const seq = String(header.kdsSeq || raw.orderSeq || '');
+  const firstDetail = (raw.ordKdsDetails || [])[0] || {};
+  const waitNo = String(header.orderWaitNo || raw.orderWaitNo || firstDetail.orderWaitNo || '');
+  const orderTime = header.orderTime || raw.orderDateTime || '';
+  const route = getOrderRoute(raw);
+  const isTake = route.kind === 'take';
+  const cookStatus = String(raw.cookStatus || header.cookStatus || '02');
+  const tableNm = String(header.tableNm || raw.tableNm || '');
+  const isDelivery = route.kind === 'delivery';
+  const deliveryNotice = getDeliveryNotice(raw);
+
+  // 주문 시간 파싱
+  let createdAt = Date.now();
+  if(orderTime) {
+    const t = String(orderTime);
+    // 형식: "20260526152617" → yyyyMMddHHmmss
+    if(t.length >= 12) {
+      const y = t.slice(0,4), mo = t.slice(4,6), d = t.slice(6,8);
+      const h = t.slice(8,10), mi = t.slice(10,12), s = t.slice(12,14)||'00';
+      createdAt = new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}`).getTime();
+    }
+  }
+
+  const items = details.map(d => ({
+    name: d.itemName || '',
+    qty: d.itemQty || 1,
+    opts: buildOpts(d),
+    isIce: (d.itemName||'').includes('(ICE)') || (d.itemName||'').toUpperCase().includes('ICE'),
+    isHot: (d.itemName||'').includes('(HOT)') || (d.itemName||'').toUpperCase().includes('HOT'),
+  }));
+
+  return {
+    _seq: seq,
+    _raw: raw,
+    waitNo,
+    isTake,
+    isDelivery,
+    route,
+    deliveryNotice,
+    cookStatus,
+    createdAt,
+    items,
+    tableNm,
+    orderEmpName: header.orderEmpName || raw.orderEmpName || '',
+  };
+}
+
+function getDeliveryNotice(raw) {
+  const details = raw.ordKdsDetails || [];
+  const notices = details
+    .map(d => d.orderNotice || d.deliveryNotice || d.custRequest || d.customerRequest || '')
+    .filter(Boolean)
+    .map(v => String(v).trim())
+    .filter(Boolean);
+  return [...new Set(notices)].join(' / ');
+}
+
+function getOrderSignals(raw) {
+  const header = raw.ordKdsHeader || {};
+  const details = raw.ordKdsDetails || [];
+  const first = details[0] || {};
+  return {
+    deviceInfo: first.deviceInfo || raw.deviceInfo || header.deviceInfo || '',
+    orderTag: first.orderTag || raw.orderTag || header.orderTag || '',
+    tableNm: header.tableNm || raw.tableNm || first.tableNm || '',
+    posNo: first.posNo || raw.posNo || header.posNo || '',
+    orderEmpNo: first.orderEmpNo || raw.orderEmpNo || header.orderEmpNo || '',
+    orderEmpName: first.orderEmpName || raw.orderEmpName || header.orderEmpName || '',
+    orderNotice: getDeliveryNotice(raw),
+    callStatus: first.callStatus || raw.callStatus || header.callStatus || '',
+    orderWaitNo: header.orderWaitNo || raw.orderWaitNo || first.orderWaitNo || '',
+    posBillNo: first.posBillNo || raw.posBillNo || header.posBillNo || '',
+    orderUniqueNo: header.orderUniqueNo || raw.orderUniqueNo || first.orderUniqueNo || ''
+  };
+}
+
+function getOrderRoute(raw) {
+  const s = getOrderSignals(raw);
+  const waitNo = String(s.orderWaitNo || '').trim().toUpperCase();
+  const tableNm = String(s.tableNm || '').trim().toUpperCase();
+  const deviceInfo = String(s.deviceInfo || '').trim().toUpperCase();
+  const notice = String(s.orderNotice || '').trim().toUpperCase();
+  const text = [
+    s.deviceInfo, s.tableNm, s.posNo, s.orderEmpNo, s.orderEmpName, s.posBillNo, s.orderNotice
+  ].join(' ').toUpperCase();
+
+  if(/[A-Z]/.test(waitNo)) {
+    return {kind:'delivery', label:'배달 주문', className:'delivery'};
+  }
+
+  if(/^0\d{3}$/.test(waitNo)) {
+    return {kind:'megaorder', label:'메가오더', className:'app'};
+  }
+
+  if((notice.includes('[픽업]') || notice.includes('픽업')) &&
+     (notice.includes('배달의민족') || notice.includes('배민') || notice.includes('BAEMIN'))) {
+    return {kind:'baeminPickup', label:'배민 픽업', className:'pickup'};
+  }
+
+  if(notice.includes('[픽업]') || notice.includes('픽업')) {
+    return {kind:'externalPickup', label:'외부 픽업', className:'pickup'};
+  }
+
+  if(tableNm.startsWith('CM') || tableNm.startsWith('DL') ||
+     text.includes('DELIVERY') || text.includes('BAEMIN') || text.includes('YOGIYO') ||
+     text.includes('COUPANG') || text.includes('배달') || text.includes('배민') ||
+     text.includes('요기요') || text.includes('쿠팡')) {
+    return {kind:'delivery', label:'배달 주문', className:'delivery'};
+  }
+
+  if(text.includes('MEGAORDER') || text.includes('MEGA_ORDER') ||
+     text.includes('MGCORDER') || text.includes('MGC_ORDER') ||
+     text.includes('메가오더') || text.includes('MOBILEORDER') ||
+     text.includes('MOBILE_ORDER') || text.includes('APPORDER') ||
+     text.includes('APP_ORDER')) {
+    return {kind:'megaorder', label:'메가오더', className:'app'};
+  }
+
+  if(deviceInfo.includes('KIOSK')) {
+    return String(s.orderTag || '').toUpperCase() === 'T'
+      ? {kind:'take', label:'포장', className:'take'}
+      : {kind:'eat', label:'먹고가기', className:'eat'};
+  }
+
+  if(String(s.orderTag || '').toUpperCase() === 'T') {
+    return {kind:'take', label:'포장', className:'take'};
+  }
+  return {kind:'eat', label:'먹고가기', className:'eat'};
+}
+
+function buildOpts(detail) {
+  const opts = [];
+  // 샷추가, 옵션 등 ordKdsDetails 하위에 있는 서브메뉴 항목
+  if(detail.subMenuCount > 0 || detail.submenuType === 'Y') {
+    // 부모 아이템의 옵션들은 ordKdsDetails에 별도 행으로 들어있음
+    // itemName에 ▶ 표시가 있으면 옵션
+  }
+  return opts;
+}
+
+// ── 렌더 ──
+function ensureViewModeButton() {
+  const topRight = document.querySelector('.top-right');
+  if(!topRight || document.getElementById('viewModeBtn')) return;
+  const btn = document.createElement('button');
+  btn.className = 'view-mode-btn';
+  btn.id = 'viewModeBtn';
+  btn.onclick = toggleViewMode;
+  const topCount = document.getElementById('topCount');
+  topRight.insertBefore(btn, topCount || null);
+  updateViewModeButton();
+}
+
+function updateViewModeButton() {
+  const btn = document.getElementById('viewModeBtn');
+  if(btn) btn.textContent = pageSize === 8 ? '8개' : '4개';
+}
+
+function toggleViewMode() {
+  pageSize = pageSize === 8 ? 4 : 8;
+  localStorage.setItem('kds_page_size', String(pageSize));
+  kdsPage = 0;
+  updateViewModeButton();
+  render();
+}
+
+function render() {
+  const grid = document.getElementById('orderGrid');
+  grid.innerHTML = '';
+  grid.classList.toggle('grid-8', pageSize === 8);
+  ensureViewModeButton();
+
+  if(pageAnim) {
+    grid.classList.add(pageAnim);
+    setTimeout(() => grid.classList.remove('slide-next','slide-prev'), 260);
+    pageAnim = '';
+  }
+
+  const urgent = activeOrders.filter(o => isUrgent(o.createdAt));
+  document.getElementById('topCount').textContent = '대기 ' + activeOrders.length + '건';
+  document.getElementById('statPending').textContent = activeOrders.length + '건';
+  document.getElementById('statDone').textContent = doneOrders.length + '건';
+  document.getElementById('statUrgent').textContent = urgent.length + '건';
+  const undoBtn = document.getElementById('undoBtn');
+  if(undoBtn) undoBtn.disabled = !lastCompletedOrder;
+
+  const list = showDone ? doneOrders : activeOrders;
+
+  if(list.length === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">☕</div>
+      <div class="empty-text">${showDone ? '완료된 주문이 없어요' : '주문을 기다리는 중...'}</div>
+    </div>`;
+    updatePageIndicator(0);
+    return;
+  }
+
+  let pageList = list;
+  if(!showDone) {
+    const total = Math.max(1, Math.ceil(list.length / pageSize));
+    if(kdsPage >= total) kdsPage = total - 1;
+    pageList = list.slice(kdsPage * pageSize, (kdsPage + 1) * pageSize);
+    updatePageIndicator(list.length);
+  } else {
+    updatePageIndicator(0);
+  }
+
+  pageList.forEach(order => {
+    if(showDone) {
+      grid.appendChild(makeDoneCard(order));
+    } else {
+      grid.appendChild(makeCard(order));
+    }
+  });
+}
+
+function makeCard(order) {
+  const urg = isUrgent(order.createdAt);
+  const card = document.createElement('div');
+  card.className = 'order-card' + (urg ? ' urgent' : '');
+
+  // 헤더
+  const head = document.createElement('div');
+  head.className = 'card-head' + (urg ? ' urgent' : '');
+  const time = new Date(order.createdAt);
+  const timeStr = pad(time.getHours()) + ':' + pad(time.getMinutes());
+  head.innerHTML = `
+    <div class="head-left">
+      <div class="order-top-row">
+        <span class="order-no ${order.isDelivery ? 'delivery' : ''}">#${order.waitNo.padStart(3,'0')}</span>
+      </div>
+    </div>
+    <div class="head-right">
+      ${urg ? '<span class="urgent-badge">⚠ 5분초과</span>' : ''}
+      <span class="order-time-inline">${timeStr}</span>
+    </div>`;
+  card.appendChild(head);
+  head.innerHTML = `
+    <div class="head-left">
+      <div class="order-top-row">
+        <span class="tap-label">호출</span>
+        <span class="order-no ${order.isDelivery ? 'delivery' : ''} ${order._calledAt ? 'called' : ''}" title="번호를 누르면 호출됩니다">#${order.waitNo.padStart(3,'0')}</span>
+      </div>
+    </div>
+    <div class="head-right"></div>`;
+  head.querySelector('.order-no').addEventListener('click', () => callOrder(order));
+
+  // 포장/먹고가기 띠
+  const typeBar = document.createElement('div');
+  typeBar.className = 'type-bar ' + (order.route?.className || (order.isTake ? 'take' : 'eat'));
+  typeBar.innerHTML = `<span class="type-label">${esc(order.route?.label || (order.isTake ? '포장' : '먹고가기'))}</span>`;
+  typeBar.dataset.time = timeStr;
+  typeBar.title = '색띠를 누르면 요리제공 처리됩니다';
+  typeBar.addEventListener('click', () => completeOrder(order));
+  card.appendChild(typeBar);
+
+  if((order.isDelivery || order.route?.kind === 'baeminPickup' || order.route?.kind === 'externalPickup') && order.deliveryNotice) {
+    const note = document.createElement('div');
+    note.className = 'delivery-note';
+    const noteLabel = order.isDelivery ? '배달요청' : '픽업정보';
+    note.innerHTML = `<span class="delivery-note-label">${noteLabel}</span>${esc(order.deliveryNotice)}`;
+    card.appendChild(note);
+  }
+
+  // 바디
+  const body = document.createElement('div');
+  body.className = 'card-body';
+
+  // 옵션 포함한 메뉴 렌더링
+  const rawDetails = order._raw.ordKdsDetails || [];
+  let parentIdx = -1;
+  rawDetails.forEach((d, idx) => {
+   const isOpt = d.subMenuYn === 'Y' || (d.itemName||'').startsWith('▶');
+    if(!isOpt) parentIdx++;
+    const madeKey = order._seq + '_' + parentIdx;
+    const isMade = !!madeItems[madeKey];
+    const name = d.itemName || '';
+    const nameCls = menuNameClass(name);
+    const qty = d.itemQty || 1;
+
+    if(!isOpt) {
+      const itemKey = madeKey;
+      const itemOptions = getDetailOptions(rawDetails, idx);
+      const div = document.createElement('div');
+      div.className = 'menu-item' + (isMade ? ' made' : '');
+      div.onclick = () => toggleMadeKey(itemKey);
+      div.innerHTML = `
+        <div class="menu-row">
+          <span class="menu-name ${nameCls}">${esc(name)}</span>
+          <span class="menu-qty recipe-open" title="수량을 누르면 레시피가 열립니다">${isMade ? '✓' : ''}x${qty}</span>
+        </div>`;
+      div.querySelector('.menu-qty').addEventListener('click', (e) => {
+        e.stopPropagation();
+        openRecipe(name, itemOptions);
+      });
+      body.appendChild(div);
+    } else {
+      // 옵션 - 마지막 메뉴아이템에 추가
+      const lastItem = body.lastElementChild;
+      if(lastItem) {
+        let optList = lastItem.querySelector('.opt-list');
+        if(!optList) {
+          optList = document.createElement('div');
+          optList.className = 'opt-list';
+          lastItem.appendChild(optList);
+        }
+        const optRow = document.createElement('div');
+        optRow.className = 'opt-row';
+        optRow.innerHTML = `<span class="opt-arrow">▶</span><span class="opt-text">${esc(name)}</span>`;
+        optList.appendChild(optRow);
+      }
+    }
+  });
+
+  card.appendChild(body);
+
+  // 푸터
+  const foot = document.createElement('div');
+  foot.className = 'card-foot';
+  const elapsed = document.createElement('div');
+  elapsed.className = 'elapsed' + (urg ? ' warn' : '');
+  elapsed.id = 'elapsed_' + order._seq;
+  elapsed.textContent = getElapsed(order.createdAt);
+  foot.appendChild(elapsed);
+  const actions = document.createElement('div');
+  actions.className = 'foot-actions';
+  const callBtn = document.createElement('button');
+  callBtn.className = 'call-btn' + (order._calledAt ? ' called' : '');
+  callBtn.textContent = order._calledAt ? '호출됨' : '호출';
+  callBtn.onclick = () => callOrder(order);
+  actions.appendChild(callBtn);
+  const btn = document.createElement('button');
+  btn.className = 'done-btn';
+  btn.textContent = '요리제공';
+  btn.onclick = () => completeOrder(order);
+  actions.appendChild(btn);
+  foot.appendChild(actions);
+  card.appendChild(foot);
+
+  return card;
+}
+
+function makeDoneCard(order) {
+  const card = document.createElement('div');
+  card.className = 'done-card';
+  const time = new Date(order._doneAt || order.createdAt);
+  const timeStr = pad(time.getHours()) + ':' + pad(time.getMinutes());
+  card.innerHTML = `
+    <div class="done-label">완료됨</div>
+    <div class="done-no">#${order.waitNo.padStart(3,'0')}</div>
+    <div class="done-dept">${esc(order.orderEmpName || '주문')}</div>
+    <div class="done-time">${timeStr} · ${esc(order.route?.label || (order.isTake ? '포장' : '먹고가기'))}</div>`;
+  return card;
+}
+
+// ── 완료 처리 ──
+function completeOrder(order) {
+  const header = order._raw.ordKdsHeader || {};
+  completeOrderApi(order);
+  // 로컬에서도 즉시 제거
+  activeOrders = activeOrders.filter(o => o._seq !== order._seq);
+  order._doneAt = Date.now();
+  lastCompletedOrder = order;
+  doneOrders.unshift(order);
+  if(doneOrders.length > 50) doneOrders.pop();
+  render();
+}
+
+async function undoLastComplete() {
+  if(!lastCompletedOrder) return;
+  const order = lastCompletedOrder;
+  lastCompletedOrder = null;
+  await restoreOrderApi(order);
+  doneOrders = doneOrders.filter(o => o._seq !== order._seq);
+  if(!activeOrders.find(o => o._seq === order._seq)) {
+    activeOrders.unshift(order);
+  }
+  render();
+}
+
+async function callOrder(order) {
+  const wasCalledAt = order._calledAt;
+  order._calledAt = Date.now();
+  render();
+
+  try {
+    await callOrderApi(order);
+  } catch(e) {
+    order._calledAt = wasCalledAt;
+    render();
+    console.warn('DID call failed:', e);
+    alert('호출 실패: ' + (e.message || e));
+  }
+}
+
+// ── 세부 제조완료 토글 ──
+function toggleMade(seq, idx) {
+  const key = seq + '_' + idx;
+  toggleMadeKey(key);
+}
+
+function toggleMadeKey(key) {
+  if(madeItems[key]) delete madeItems[key];
+  else madeItems[key] = true;
+  render();
+}
+
+// ── 유틸 ──
+function menuNameClass(name) {
+  const n = String(name || '');
+  const norm = n.replace(/\s/g,'');
+  if(norm.includes('말차젤라또') || norm.includes('팥빙수파르페')) return 'matcha-parfait';
+  if(norm.includes('메가리카노')) return 'mega-ricano';
+  if(n.includes('(ICE)') || /\bICE\b/.test(n.toUpperCase())) return 'temp-ice';
+  if(n.includes('(HOT)') || /\bHOT\b/.test(n.toUpperCase())) return 'temp-hot';
+  return '';
+}
+function isUrgent(createdAt) { return (Date.now() - createdAt) > 5*60*1000; }
+function getElapsed(createdAt) {
+  const sec = Math.floor((Date.now() - createdAt) / 1000);
+  if(sec < 60) return sec + '초';
+  return Math.floor(sec/60) + '분 ' + (sec%60) + '초';
+}
+function pad(n) { return String(n).padStart(2,'0'); }
+function esc(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+// ── 페이지 ──
+function updatePageIndicator(total) {
+  const el = document.getElementById('pageIndicator');
+  const prev = document.getElementById('pagePrevBtn');
+  const next = document.getElementById('pageNextBtn');
+  if(showDone || total <= pageSize) {
+    el.style.display = 'none';
+    prev.style.display = 'none';
+    next.style.display = 'none';
+    return;
+  }
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  el.style.display = '';
+  prev.style.display = '';
+  next.style.display = '';
+  el.textContent = (kdsPage+1) + '/' + totalPages;
+  prev.disabled = kdsPage <= 0;
+  next.disabled = kdsPage >= totalPages - 1;
+}
+function movePage(delta) {
+  if(pageLocked) return;
+  const total = Math.max(1, Math.ceil(activeOrders.length / pageSize));
+  const next = Math.max(0, Math.min(total-1, kdsPage + delta));
+  if(next === kdsPage) return;
+  pageLocked = true;
+  setTimeout(() => pageLocked = false, 340);
+  pageAnim = delta > 0 ? 'slide-next' : 'slide-prev';
+  kdsPage = next;
+  render();
+}
+
+// 스와이프
+let swipeX = 0, swipeY = 0;
+const grid = document.getElementById('orderGrid');
+grid.addEventListener('touchstart', e => { swipeX = e.touches[0].clientX; swipeY = e.touches[0].clientY; }, {passive:true});
+grid.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - swipeX;
+  const dy = e.changedTouches[0].clientY - swipeY;
+  if(Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy)*1.4) return;
+  movePage(dx < 0 ? 1 : -1);
+}, {passive:true});
+
+// ── 완료내역 토글 ──
+function toggleDone() {
+  showDone = !showDone;
+  document.getElementById('showDoneBtn').textContent = showDone ? '주문 목록 보기' : '완료 내역 보기';
+  render();
+}
+
+// ── 주문형태 진단 ──
+function openDiagnostics() {
+  renderDiagnostics();
+  document.getElementById('diagnosticsOverlay').classList.add('show');
+}
+function hideDiagnostics() {
+  document.getElementById('diagnosticsOverlay').classList.remove('show');
+}
+function closeDiagnostics(e) {
+  if(e.target === document.getElementById('diagnosticsOverlay')) hideDiagnostics();
+}
+function renderDiagnostics() {
+  const body = document.getElementById('diagnosticsBody');
+  const source = activeOrders.length ? activeOrders.map(o => o._raw) : lastRawOrders;
+  if(!source.length) {
+    body.textContent = '현재 표시할 주문 데이터가 없습니다.';
+    return;
+  }
+  const rows = source.map(raw => {
+    const route = getOrderRoute(raw);
+    const s = getOrderSignals(raw);
+    return {
+      판별결과: route.label,
+      판별코드: route.kind,
+      ...s
+    };
+  });
+  body.textContent = JSON.stringify(rows, null, 2);
+}
+
+function normalizeRecipeName(name) {
+  return String(name || '')
+    .replace(/\((ICE|HOT)\)/gi, '')
+    .replace(/\b(ICE|HOT)\b/gi, '')
+    .replace(/[^\w가-힣]/g, '')
+    .replace(/\s+/g, '')
+    .trim();
+}
+
+function getRecipeTempHint(name, options) {
+  const text = [name, ...(options || [])].join(' ').toUpperCase();
+  if(text.includes('HOT') || text.includes('핫')) return 'HOT';
+  if(text.includes('ICE') || text.includes('ICED') || text.includes('아이스')) return 'ICE';
+  return '';
+}
+
+const RECIPE_OVERRIDE_KEY = 'mega_kds_recipe_overrides_v1';
+const RECIPE_REMOTE_CACHE_KEY = 'mega_kds_remote_recipes_v1';
+const RECIPE_REMOTE_VERSION_KEY = 'mega_kds_remote_recipes_version_v1';
+let currentRecipeList = [];
+let currentRecipeName = '';
+let currentRecipeOptions = [];
+
+function recipeKey(name, temp) {
+  return `${normalizeRecipeName(name)}|${String(temp || '').toUpperCase()}`;
+}
+
+function getRecipeOverrides() {
+  try { return JSON.parse(localStorage.getItem(RECIPE_OVERRIDE_KEY) || '{}') || {}; }
+  catch(e) { return {}; }
+}
+
+function saveRecipeOverrides(overrides) {
+  localStorage.setItem(RECIPE_OVERRIDE_KEY, JSON.stringify(overrides || {}));
+}
+
+function getConfiguredRecipeDataUrl() {
+  if(config.recipeDataUrl) return config.recipeDataUrl.trim();
+  const manifest = (config.updateManifestUrl || '').trim();
+  if(manifest && /\/version\.json(?:\?.*)?$/i.test(manifest)) {
+    return manifest.replace(/version\.json(?:\?.*)?$/i, 'recipes.json');
+  }
+  return '';
+}
+
+function getRemoteRecipeRows() {
+  try {
+    const cached = JSON.parse(localStorage.getItem(RECIPE_REMOTE_CACHE_KEY) || 'null');
+    if(Array.isArray(cached)) return cached;
+    if(cached && Array.isArray(cached.recipes)) return cached.recipes;
+  } catch(e) {}
+  return null;
+}
+
+async function refreshRemoteRecipes() {
+  const url = getConfiguredRecipeDataUrl();
+  if(!url) return false;
+  try {
+    const res = await fetch(url, {cache: 'no-store'});
+    if(!res.ok) throw new Error('recipes fetch failed');
+    const data = await res.json();
+    const recipes = Array.isArray(data) ? data : data.recipes;
+    if(!Array.isArray(recipes) || !recipes.length) throw new Error('recipes empty');
+    localStorage.setItem(RECIPE_REMOTE_CACHE_KEY, JSON.stringify(recipes));
+    localStorage.setItem(RECIPE_REMOTE_VERSION_KEY, String(data.version || Date.now()));
+    return true;
+  } catch(e) {
+    return false;
+  }
+}
+
+function mergedRecipeRows() {
+  const overrides = getRecipeOverrides();
+  const remote = getRemoteRecipeRows();
+  const base = (remote || MEGA_RECIPE_ROWS || []).map(r => ({...r, source: remote ? 'remote' : 'base'}));
+  const merged = base.map(r => overrides[recipeKey(r.stdName || r.name, r.temp)] ? {...r, ...overrides[recipeKey(r.stdName || r.name, r.temp)], source: 'local'} : r);
+  const baseKeys = new Set(base.map(r => recipeKey(r.stdName || r.name, r.temp)));
+  Object.keys(overrides).forEach(key => {
+    if(!baseKeys.has(key)) merged.push({...overrides[key], source: 'local'});
+  });
+  return merged;
+}
+
+function findRecipes(name, options) {
+  const norm = normalizeRecipeName(name);
+  if(!norm) return [];
+  const rows = mergedRecipeRows();
+  let matches = rows.filter(r => {
+    const names = [r.stdName, r.name].map(normalizeRecipeName).filter(Boolean);
+    return names.some(key => norm === key);
+  });
+  if(!matches.length) {
+    matches = rows.filter(r => {
+      const names = [r.stdName, r.name].map(normalizeRecipeName).filter(Boolean);
+      return names.some(key => norm.includes(key));
+    });
+  }
+  const temp = getRecipeTempHint(name, options);
+  if(temp) {
+    const tempMatches = matches.filter(r => r.temp === temp);
+    if(tempMatches.length) return tempMatches.slice(0, 3);
+  }
+  return matches.slice(0, 3);
+}
+
+function getRecipeCupSize(recipe) {
+  if(recipe.cup) return recipe.cup;
+  const text = String((recipe.lines || []).join(' ') || recipe.text || '');
+  const m = text.match(/(?:^|[\s/])(20|24|32)(?=\s|\/)/);
+  return m ? `${m[1]}oz` : '';
+}
+
+function cleanRecipePart(part) {
+  return String(part || '')
+    .replace(/\bx\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .replace(/\s+\/\s+/g, ' / ')
+    .trim(' /');
+}
+
+function buildSimpleRecipeLines(recipe) {
+  if(Array.isArray(recipe.lines) && recipe.lines.length) return recipe.lines;
+  let text = cleanRecipePart(recipe.text || '');
+  text = text
+    .replace(/\s*\/\s*x$/i, '')
+    .replace(/\s*x$/i, '')
+    .replace(/\s{2,}/g, ' ');
+
+  const firstCup = text.search(/(?:^|\s)(20|24|32)(?=\s|\/)/);
+  let step = '';
+  let spec = text;
+  if(firstCup > 0) {
+    step = cleanRecipePart(text.slice(0, firstCup));
+    spec = cleanRecipePart(text.slice(firstCup));
+  }
+
+  // PDF 하단의 공통 제조순서가 메뉴 뒤에 붙어 나온 경우, 실제 메뉴 재료까지만 보이게 자른다.
+  spec = spec.replace(/\s+컵\(재료\)\s*→[\s\S]*$/g, '');
+  spec = spec.replace(/\s+계량컵\([\s\S]*$/g, '');
+  spec = spec.replace(/\s+블렌더\(액상,재료\)\s*→[\s\S]*$/g, '');
+
+  const cupMatch = spec.match(/^(20|24|32)(?:\s|\/)/);
+  const cup = cupMatch ? `${cupMatch[1]}oz` : getRecipeCupSize(recipe);
+  if(cupMatch) spec = cleanRecipePart(spec.replace(/^(20|24|32)\s*/, ''));
+
+  const shotMatch = spec.match(/^([123])(?:\s|\/)/);
+  const shot = shotMatch ? `${shotMatch[1]}샷` : '';
+  if(shotMatch) spec = cleanRecipePart(spec.replace(/^[123]\s*/, ''));
+
+  const iceMatch = spec.match(/^(가득|컵선|8부|8\.5부|9부)(?:\s|\/)/);
+  const ice = iceMatch ? `얼음 ${iceMatch[1]}` : '';
+  if(iceMatch) spec = cleanRecipePart(spec.replace(/^(가득|컵선|8부|8\.5부|9부)\s*/, ''));
+
+  const liquidMatch = spec.match(/((?:온수|정수|우유|스팀우유|아몬드밀크|스트바닐라|콜라|사이다|제로사이다|물)[^+]*?(?:\([^)]+\)|\d+ml|가득|[A-Z]선|[0-9.]+부)?)/);
+  const liquid = liquidMatch ? cleanRecipePart(liquidMatch[1]) : '';
+  let materials = liquidMatch ? cleanRecipePart(spec.replace(liquidMatch[1], '')) : spec;
+  materials = materials
+    .replace(/^\+\s*/, '')
+    .replace(/\s*\/\s*/g, ' + ')
+    .replace(/\s+x$/i, '')
+    .trim();
+
+  const baseParts = [cup, shot, ice, liquid].filter(Boolean);
+  const lines = [];
+  if(step && step !== 'x') lines.push(step);
+  if(baseParts.length) lines.push(baseParts.join(' + '));
+  if(materials) lines.push(materials);
+  if(!lines.length && text) lines.push(text);
+  return lines.length ? lines.slice(0, 3) : ['간편 레시피 정리 필요'];
+}
+
+function highlightRecipeText(text) {
+  const colorMap = {
+    red: 'recipe-em-red',
+    blue: 'recipe-em-blue',
+    green: 'recipe-em-green',
+    orange: 'recipe-em-orange'
+  };
+  const placeholders = [];
+  let source = String(text || '').replace(/\[(red|blue|green|orange)\]([\s\S]*?)\[\/\1\]/gi, (_, color, inner) => {
+    const token = `@@COLOR_${placeholders.length}@@`;
+    placeholders.push(`<span class="${colorMap[color.toLowerCase()]}">${esc(inner)}</span>`);
+    return token;
+  });
+  let html = esc(source)
+    .replace(/(얼음|정수|온수|물|우유|스팀우유|아몬드밀크)/g, '<span class="recipe-em-blue">$1</span>')
+    .replace(/(샷|에스프레소|토핑|드리즐|휘핑|젤라또|티백|민트|로즈마리)/g, '<span class="recipe-em-red">$1</span>')
+    .replace(/([가-힣A-Za-z]*베이스|[가-힣A-Za-z]*시럽|[가-힣A-Za-z]*파우더|청|퓨레|소스)/g, '<span class="recipe-em-orange">$1</span>')
+    .replace(/(\d+(?:\.\d+)?(?:ml|g|P|ea|래들|부|선|번|초|분|oz))/g, '<span class="recipe-em-green">$1</span>')
+    .replace(/\s\+\s/g, ' <span class="recipe-em-red">+</span> ');
+  placeholders.forEach((value, idx) => {
+    html = html.replace(`@@COLOR_${idx}@@`, value);
+  });
+  return html;
+}
+
+function renderSimpleRecipeCard(recipe) {
+  const cup = getRecipeCupSize(recipe);
+  const lines = buildSimpleRecipeLines(recipe);
+  const idx = currentRecipeList.indexOf(recipe);
+  return `<div class="recipe-card">
+    <div class="recipe-name-cell">${esc(recipe.name || '')}<span class="recipe-temp">${esc(recipe.temp || '')}</span></div>
+    <div class="recipe-size-cell">${esc(cup || '-')}</div>
+    <div class="recipe-main-cell">
+      ${lines.map((line, idx) => `<p class="recipe-line"><span class="recipe-line-num">${idx + 1}.</span>${highlightRecipeText(line)}</p>`).join('')}
+      ${recipe.note ? `<div class="recipe-note">※ ${esc(recipe.note)}</div>` : ''}
+      <div class="recipe-actions">
+        <button class="recipe-action secondary" type="button" onclick="editRecipeAt(${idx})">수정</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function showRecipeEditor(recipe) {
+  const body = document.getElementById('recipeBody');
+  const target = recipe || {
+    id: `LOCAL-${Date.now()}`,
+    name: currentRecipeName || '',
+    stdName: currentRecipeName || '',
+    temp: getRecipeTempHint(currentRecipeName, currentRecipeOptions) || '',
+    cup: '',
+    lines: [],
+    note: '',
+    source: 'local'
+  };
+  body.innerHTML += `<div class="recipe-edit-form" id="recipeEditForm">
+    <div class="recipe-form-grid">
+      <div class="recipe-form-row">
+        <label>메뉴명</label>
+        <input id="editRecipeName" value="${esc(target.stdName || target.name || '')}">
+      </div>
+      <div class="recipe-form-row">
+        <label>온도</label>
+        <input id="editRecipeTemp" value="${esc(target.temp || '')}" placeholder="HOT/ICE">
+      </div>
+      <div class="recipe-form-row">
+        <label>컵</label>
+        <input id="editRecipeCup" value="${esc(getRecipeCupSize(target) || '')}" placeholder="20oz">
+      </div>
+    </div>
+    <div class="recipe-form-row">
+      <label>레시피</label>
+      <div class="recipe-color-tools">
+        <button class="recipe-color-btn red" type="button" onclick="applyRecipeColor('red')">빨강</button>
+        <button class="recipe-color-btn blue" type="button" onclick="applyRecipeColor('blue')">파랑</button>
+        <button class="recipe-color-btn green" type="button" onclick="applyRecipeColor('green')">초록</button>
+        <button class="recipe-color-btn orange" type="button" onclick="applyRecipeColor('orange')">주황</button>
+        <button class="recipe-color-btn" type="button" onclick="removeRecipeColorTags()">색상태그 제거</button>
+      </div>
+      <div class="recipe-color-help">색칠할 글자를 드래그한 뒤 색상 버튼을 누르세요.</div>
+      <textarea id="editRecipeLines">${esc((target.lines || buildSimpleRecipeLines(target)).join('\n'))}</textarea>
+    </div>
+    <div class="recipe-form-row">
+      <label>메모</label>
+      <input id="editRecipeNote" value="${esc(target.note || '')}">
+    </div>
+    <div class="recipe-actions">
+      <button class="recipe-action" type="button" onclick="saveRecipeEditor()">저장</button>
+      <button class="recipe-action secondary" type="button" onclick="openRecipe(currentRecipeName, currentRecipeOptions)">취소</button>
+    </div>
+  </div>`;
+  document.getElementById('recipeEditForm').scrollIntoView({block:'nearest'});
+}
+
+function applyRecipeColor(color) {
+  const area = document.getElementById('editRecipeLines');
+  if(!area) return;
+  const start = area.selectionStart;
+  const end = area.selectionEnd;
+  if(start === end) {
+    area.focus();
+    return;
+  }
+  const before = area.value.slice(0, start);
+  const selected = area.value.slice(start, end);
+  const after = area.value.slice(end);
+  const wrapped = `[${color}]${selected}[/${color}]`;
+  area.value = before + wrapped + after;
+  area.focus();
+  area.setSelectionRange(start, start + wrapped.length);
+}
+
+function removeRecipeColorTags() {
+  const area = document.getElementById('editRecipeLines');
+  if(!area) return;
+  area.value = area.value.replace(/\[(red|blue|green|orange)\]([\s\S]*?)\[\/\1\]/gi, '$2');
+  area.focus();
+}
+
+function editRecipeAt(idx) {
+  showRecipeEditor(currentRecipeList[idx]);
+}
+
+function addRecipeFromCurrentOrder() {
+  showRecipeEditor(null);
+}
+
+function saveRecipeEditor() {
+  const name = document.getElementById('editRecipeName').value.trim();
+  const temp = document.getElementById('editRecipeTemp').value.trim().toUpperCase();
+  const cup = document.getElementById('editRecipeCup').value.trim();
+  const lines = document.getElementById('editRecipeLines').value.split(/\n+/).map(s => s.replace(/^\s*\d+\.\s*/, '').trim()).filter(Boolean);
+  const note = document.getElementById('editRecipeNote').value.trim();
+  if(!name || !lines.length) {
+    alert('메뉴명과 레시피를 입력해 주세요.');
+    return;
+  }
+  const overrides = getRecipeOverrides();
+  overrides[recipeKey(name, temp)] = {
+    id: `LOCAL-${recipeKey(name, temp)}`,
+    name,
+    stdName: name,
+    temp,
+    cup,
+    lines,
+    note,
+    keywords: `${name} ${temp}`.trim(),
+    source: 'local'
+  };
+  saveRecipeOverrides(overrides);
+  openRecipe(name, temp ? [temp] : currentRecipeOptions);
+}
+
+function getDetailOptions(details, startIdx) {
+  const opts = [];
+  for(let i = startIdx + 1; i < details.length; i++) {
+    const d = details[i] || {};
+    const n = String(d.itemName || '');
+    const isOpt = d.subMenuYn === 'Y' || n.startsWith('▶');
+    if(!isOpt) break;
+    opts.push(n.replace(/^▶\s*/, ''));
+  }
+  return opts;
+}
+
+function openRecipe(name, options) {
+  const overlay = document.getElementById('recipeOverlay');
+  const title = document.getElementById('recipeTitle');
+  const body = document.getElementById('recipeBody');
+  const recipes = findRecipes(name, options);
+  currentRecipeName = name || '';
+  currentRecipeOptions = options || [];
+  currentRecipeList = recipes;
+  title.textContent = name || '레시피';
+
+  const optionText = (options || []).length ? options.join('\n') : '옵션 없음';
+  const recipeHtml = recipes.length
+    ? `<div class="recipe-meta">
+        <div class="recipe-meta-cell">상품명</div>
+        <div class="recipe-meta-cell">컵사이즈</div>
+        <div class="recipe-meta-cell">레시피</div>
+      </div>
+      ${recipes.map(renderSimpleRecipeCard).join('')}`
+    : `<div class="recipe-card">
+        <div class="recipe-name-cell">${esc(name || '')}</div>
+        <div class="recipe-size-cell">-</div>
+        <div class="recipe-main-cell recipe-empty">
+          등록된 레시피 없음
+          <div class="recipe-actions">
+            <button class="recipe-action" type="button" onclick="addRecipeFromCurrentOrder()">새 레시피 추가</button>
+          </div>
+        </div>
+      </div>`;
+
+  body.innerHTML = `
+    <div class="recipe-option-box">주문 옵션: ${esc(optionText)}</div>
+    ${recipeHtml}`;
+  overlay.classList.add('show');
+}
+
+function hideRecipe() {
+  document.getElementById('recipeOverlay').classList.remove('show');
+}
+
+function closeRecipe(e) {
+  if(e.target === document.getElementById('recipeOverlay')) hideRecipe();
+}
+
+refreshRemoteRecipes();
+
+// ── 알림음 ──
+function getAudioCtx() {
+  if(!audioCtx) audioCtx = new(window.AudioContext||window.webkitAudioContext)();
+  return audioCtx;
+}
+function playAlert() {
+  try {
+    const ctx = getAudioCtx();
+    [{freq:1046,start:0,dur:0.2},{freq:784,start:0.25,dur:0.2},{freq:1046,start:0.5,dur:0.35}].forEach(n => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(n.freq, ctx.currentTime+n.start);
+      gain.gain.setValueAtTime(0, ctx.currentTime+n.start);
+      gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime+n.start+0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+n.start+n.dur);
+      osc.start(ctx.currentTime+n.start);
+      osc.stop(ctx.currentTime+n.start+n.dur+0.05);
+    });
+  } catch(e) {}
+}
+document.addEventListener('click', () => {
+  if(!audioCtx) getAudioCtx();
+  else if(audioCtx.state==='suspended') audioCtx.resume();
+});
+
+// ── 시계 ──
+function updateTime() {
+  const now = new Date();
+  document.getElementById('topTime').textContent = pad(now.getHours()) + ':' + pad(now.getMinutes());
+}
+setInterval(updateTime, 1000);
+updateTime();
+ensureViewModeButton();
+
+// ── 경과시간 갱신 ──
+setInterval(() => {
+  if(showDone) return;
+  activeOrders.forEach(order => {
+    const el = document.getElementById('elapsed_' + order._seq);
+    if(!el) return;
+    const urg = isUrgent(order.createdAt);
+    el.textContent = getElapsed(order.createdAt);
+    el.className = 'elapsed' + (urg ? ' warn' : '');
+  });
+}, 1000);
+
+// ── 폴링 시작 ──
+function restartPolling() {
+  if(pollTimer) clearInterval(pollTimer);
+  poll();
+  pollTimer = setInterval(poll, config.pollInterval * 1000);
+}
+
+restartPolling();
+</script>
+</body>
+</html>
+
