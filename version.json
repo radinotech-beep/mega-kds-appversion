@@ -1,6 +1,7 @@
 {
-    "htmlUrl":  "https://raw.githubusercontent.com/radinotech-beep/mega-kds-appversion/main/kds.html",
-    "recipesVersion":  1,
-    "version":  6,
-    "recipesUrl":  "https://raw.githubusercontent.com/radinotech-beep/mega-kds-appversion/main/recipes.json"
+  "version": 5,
+  "htmlUrl": "https://raw.githubusercontent.com/radinotech-beep/mega-kds-appversion/main/kds.html",
+  "recipesVersion": 2,
+  "recipesUrl": "https://raw.githubusercontent.com/radinotech-beep/mega-kds-appversion/main/recipes.json",
+  "updatedAt": "2026-06-10"
 }
